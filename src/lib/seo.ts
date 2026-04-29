@@ -1,18 +1,21 @@
 export const siteConfig = {
-  name: 'Nom Entreprise',
-  url: 'https://www.example.com',
+  name: 'STELLA C',
+  fullName: 'Claudia Stella Ceriani',
+  tagline: 'Celebrity & Fashion Makeup Artist',
+  url: 'https://www.stellamua.it',
   locale: 'fr_FR',
   description:
-    'Votre entreprise - description courte et percutante de votre activité. Adaptez cette ligne à votre domaine.',
-  ogImage: 'https://www.example.com/og.png',
-  twitterHandle: '@votrecompte',
-  themeColor: '#6d28d9',
-  phone: '+33 1 23 45 67 89',
-  email: 'contact@example.com',
+    'Maquilleuse et coiffeuse italienne basée à Paris. Beauty, mode, tapis rouge et événements VIP. Disponible worldwide.',
+  ogImage: 'https://www.stellamua.it/og.png',
+  twitterHandle: '@stella.ceriani.mua',
+  themeColor: '#0a0a0a',
+  phone: '+33 6 35 29 76 89',
+  email: 'stella.ceriani.mua@gmail.com',
+  instagram: 'https://instagram.com/stella.ceriani.mua',
   address: {
-    street: '12 Rue Exemple',
+    street: 'Paris',
     city: 'Paris',
-    postalCode: '75001',
+    postalCode: '75000',
     country: 'FR',
   },
 } as const
@@ -29,7 +32,7 @@ export type SeoMeta = {
 
 export function buildTitle(page?: string) {
   if (!page) return siteConfig.name
-  return `${page} - ${siteConfig.name}`
+  return `${page} · ${siteConfig.name}`
 }
 
 export const routes = [

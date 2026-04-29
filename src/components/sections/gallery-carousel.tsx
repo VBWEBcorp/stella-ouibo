@@ -1,36 +1,25 @@
 'use client'
 
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { Button } from '@/components/ui/button'
-import { useContent } from '@/hooks/use-content'
+import { useLang } from '@/hooks/use-lang'
 
-const defaultImages = [
-  'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=720&q=80',
-  'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=720&q=80',
-  'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=720&q=80',
-  'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=720&q=80',
-  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=720&q=80',
-  'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=720&q=80',
+const images = [
+  { src: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=900&q=85', label: 'Red lips · Signature' },
+  { src: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=900&q=85', label: 'Smoky eye · Editorial' },
+  { src: 'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=85', label: 'Backstage · Cannes' },
+  { src: 'https://images.unsplash.com/photo-1525258946800-98cfd641d0de?auto=format&fit=crop&w=900&q=85', label: 'Couture · Paris' },
+  { src: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=900&q=85', label: 'Nude shades · Beauty' },
+  { src: 'https://images.unsplash.com/photo-1503236823255-94609f598e71?auto=format&fit=crop&w=900&q=85', label: 'Portrait · Harcourt' },
+  { src: 'https://images.unsplash.com/photo-1496440737103-cd596325d314?auto=format&fit=crop&w=900&q=85', label: 'Glam · Premiere' },
+  { src: 'https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&w=900&q=85', label: 'Fashion · Vogue' },
 ]
 
-const defaults = {
-  eyebrow: 'Galerie',
-  title: 'En coulisses',
-  images: defaultImages,
-}
-
-const GAP = 20
-const CARD_WIDTH = 340
-
 export function GalleryCarousel() {
-  const { data } = useContent('home', { gallery: defaults })
-  const gallery = data.gallery ?? defaults
-  const images = gallery.images ?? defaultImages
-
+  const { t } = useLang()
   const trackRef = useRef<HTMLDivElement>(null)
   const [maxScroll, setMaxScroll] = useState(0)
   const x = useMotionValue(0)
@@ -49,67 +38,103 @@ export function GalleryCarousel() {
   const slide = useCallback(
     (dir: -1 | 1) => {
       const current = x.get()
-      const step = CARD_WIDTH + GAP
+      const step = 360
       const next = Math.max(-maxScroll, Math.min(0, current - dir * step))
-      animate(x, next, { type: 'spring', stiffness: 300, damping: 35 })
+      animate(x, next, { type: 'spring', stiffness: 280, damping: 35 })
     },
     [x, maxScroll]
   )
 
   return (
-    <section className="border-b border-border/60">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-        <div className="flex items-end justify-between gap-4">
-          <div className="space-y-3">
-            <p className="font-display text-xs font-semibold tracking-[0.22em] text-primary uppercase">
-              {gallery.eyebrow}
+    <section className="border-b border-foreground/[0.08] bg-background">
+      <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
+        {/* Header */}
+        <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+              {t('gal.eyebrow')}
             </p>
-            <h2 className="font-display text-2xl tracking-tight text-foreground sm:text-3xl">
-              {gallery.title}
+            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.6rem]">
+              {t('gal.title.line1')}
+              <br /> <span className="italic text-gold">{t('gal.title.italic')}</span>.
             </h2>
           </div>
-          <div className="flex shrink-0 gap-2">
-            <Button type="button" variant="outline" size="icon" className="size-10 rounded-full sm:size-11" aria-label="Image précédente" onClick={() => slide(-1)}>
-              <ChevronLeft className="size-5" />
-            </Button>
-            <Button type="button" variant="outline" size="icon" className="size-10 rounded-full sm:size-11" aria-label="Image suivante" onClick={() => slide(1)}>
-              <ChevronRight className="size-5" />
-            </Button>
+
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => slide(-1)}
+              aria-label="Précédent"
+              className="flex size-12 items-center justify-center border border-foreground/30 text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => slide(1)}
+              aria-label="Suivant"
+              className="flex size-12 items-center justify-center border border-foreground/30 text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+            >
+              →
+            </button>
           </div>
         </div>
 
-        <div className="mt-10 overflow-hidden" role="region" aria-label="Galerie photos">
+        {/* Track */}
+        <div className="mt-14 overflow-hidden lg:mt-20" role="region" aria-label="Galerie">
           <motion.div
             ref={trackRef}
             style={{ x }}
             drag="x"
             dragConstraints={{ left: -maxScroll, right: 0 }}
-            dragElastic={0.08}
-            className="flex cursor-grab active:cursor-grabbing"
+            dragElastic={0.06}
+            className="flex cursor-grab gap-5 active:cursor-grabbing"
           >
-            {images.map((src: string, i: number) => (
-              <motion.div key={i} className="shrink-0" style={{ width: CARD_WIDTH, marginRight: i < images.length - 1 ? GAP : 0 }}>
-                <div className="group overflow-hidden rounded-2xl border border-border/80 bg-card/70 shadow-[var(--shadow-sm)] ring-1 ring-foreground/5 transition-shadow duration-300 hover:shadow-[var(--shadow-md)]">
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={src}
-                      alt=""
-                      fill
-                      sizes="340px"
-                      loading="lazy"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                  </div>
+            {images.map((img, i) => (
+              <div
+                key={i}
+                className="group relative shrink-0"
+                style={{ width: 'min(78vw, 340px)' }}
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <Image
+                    src={img.src}
+                    alt={img.label}
+                    fill
+                    sizes="340px"
+                    loading="lazy"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  />
+                  <div className="absolute inset-0 bg-black/15 transition-opacity duration-500 group-hover:bg-black/0" />
                 </div>
-              </motion.div>
+                <div className="mt-4 flex items-baseline justify-between">
+                  <span className="font-display text-[11px] uppercase tracking-[0.28em] text-foreground/70">
+                    {img.label}
+                  </span>
+                  <span className="font-display text-[10px] tracking-[0.24em] text-foreground/30">
+                    0{i + 1}
+                  </span>
+                </div>
+              </div>
             ))}
           </motion.div>
         </div>
 
-        <div className="mt-6 flex justify-center">
-          <div className="h-1 w-32 overflow-hidden rounded-full bg-border">
-            <motion.div className="h-full rounded-full bg-primary/60" style={{ scaleX: progress, transformOrigin: 'left' }} />
+        {/* Progress + CTA */}
+        <div className="mt-12 flex flex-col items-center gap-8 sm:flex-row sm:justify-between">
+          <div className="h-px w-full max-w-xs overflow-hidden bg-foreground/[0.08]">
+            <motion.div
+              className="h-full origin-left bg-gold"
+              style={{ scaleX: progress }}
+            />
           </div>
+          <Link
+            href="/gallery"
+            className="group inline-flex items-center gap-3 font-display text-[11px] font-medium uppercase tracking-[0.32em] text-foreground transition-colors hover:text-gold"
+          >
+            {t('gal.cta')}
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </Link>
         </div>
       </div>
     </section>

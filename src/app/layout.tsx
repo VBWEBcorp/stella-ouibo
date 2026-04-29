@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 
 import { RootWrapper } from '@/components/layout/root-wrapper'
 import { ThemeScript } from '@/components/theme/theme-script'
@@ -13,18 +13,19 @@ const inter = Inter({
   display: 'swap',
 })
 
-const jakarta = Plus_Jakarta_Sans({
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
   display: 'swap',
 })
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
+    default: `${siteConfig.name} · ${siteConfig.tagline}`,
+    template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
   openGraph: {
@@ -72,13 +73,13 @@ export default function RootLayout({
     <html
       lang="fr"
       dir="ltr"
-      className={`${inter.variable} ${jakarta.variable}`}
+      className={`${inter.variable} ${playfair.variable}`}
       suppressHydrationWarning
     >
       <head>
         <ThemeScript />
       </head>
-      <body className="flex min-h-dvh flex-col">
+      <body className="flex min-h-dvh flex-col bg-background text-foreground">
         <RootWrapper>{children}</RootWrapper>
       </body>
     </html>

@@ -4,7 +4,7 @@ import { AboutContent } from './about-content'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/components/seo/json-ld'
 
 const description =
-  'Découvrez notre histoire, nos valeurs et notre équipe. Nous accompagnons les entreprises dans leur développement digital.'
+  'Claudia Stella Ceriani · Italian makeup & hair artist based in Paris. Editorial, red carpet, fashion week and VIP events.'
 
 export const metadata: Metadata = {
   title: 'À propos',

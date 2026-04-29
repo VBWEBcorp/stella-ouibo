@@ -1,75 +1,45 @@
-import {
-  Eye,
-  Handshake,
-  HeartHandshake,
-  Lightbulb,
-  Rocket,
-  Shield,
-  Sparkles,
-  Target,
-  type LucideIcon,
-} from 'lucide-react'
+'use client'
 
-const values: { icon: LucideIcon; label: string }[] = [
-  { icon: Sparkles, label: 'Excellence' },
-  { icon: Handshake, label: 'Confiance' },
-  { icon: Lightbulb, label: 'Innovation' },
-  { icon: Eye, label: 'Transparence' },
-  { icon: Rocket, label: 'Performance' },
-  { icon: HeartHandshake, label: 'Proximité' },
-  { icon: Shield, label: 'Fiabilité' },
-  { icon: Target, label: 'Sur mesure' },
+import { useLang } from '@/hooks/use-lang'
+
+const valueKeys = [
+  'marquee.editorial',
+  'marquee.redCarpet',
+  'marquee.beauty',
+  'marquee.couture',
+  'marquee.fashionWeek',
+  'marquee.bridal',
+  'marquee.cinema',
+  'marquee.vipEvents',
+  'marquee.magazine',
+  'marquee.backstage',
 ]
 
-function ValuesTrack({
+function Track({
   direction,
-  variant,
+  values,
 }: {
   direction: 'left' | 'right'
-  variant: 'light' | 'dark'
+  values: string[]
 }) {
-  const animClass =
-    direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'
+  const animClass = direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'
 
-  const textClass =
-    variant === 'dark'
-      ? 'text-white/60'
-      : 'text-foreground/70'
-  const iconClass =
-    variant === 'dark'
-      ? 'text-white/30'
-      : 'text-primary/50'
-  const separatorClass =
-    variant === 'dark'
-      ? 'text-white/20'
-      : 'text-border'
-
-  const items = values.map((v) => (
+  const items = values.map((label, i) => (
     <span
-      key={v.label}
-      className={`inline-flex shrink-0 items-center gap-2.5 text-nowrap font-display text-sm font-medium tracking-wide uppercase sm:text-base ${textClass}`}
+      key={`${label}-${i}`}
+      className="inline-flex shrink-0 items-center gap-10 whitespace-nowrap font-display text-2xl font-light italic text-foreground/80 sm:text-3xl lg:text-[2.6rem]"
     >
-      <v.icon className={`size-4 ${iconClass}`} aria-hidden />
-      {v.label}
-      <span className={separatorClass} aria-hidden>
-        ·
-      </span>
+      {label}
+      <span aria-hidden className="text-gold/70">✦</span>
     </span>
   ))
 
   return (
-    <div className="group flex overflow-hidden">
-      <div
-        className={`flex shrink-0 items-center gap-6 ${animClass}`}
-        style={{ animationDuration: '35s' }}
-      >
+    <div className="flex overflow-hidden">
+      <div className={`flex shrink-0 items-center gap-10 pr-10 ${animClass}`}>
         {items}
       </div>
-      <div
-        aria-hidden
-        className={`flex shrink-0 items-center gap-6 ${animClass}`}
-        style={{ animationDuration: '35s' }}
-      >
+      <div aria-hidden className={`flex shrink-0 items-center gap-10 pr-10 ${animClass}`}>
         {items}
       </div>
     </div>
@@ -77,14 +47,18 @@ function ValuesTrack({
 }
 
 export function ValuesMarquee({ variant = 'light' }: { variant?: 'light' | 'dark' }) {
-  const wrapperClass =
-    variant === 'dark'
-      ? 'border-t border-white/10 bg-black/20 backdrop-blur-sm py-4 sm:py-5'
-      : 'border-y border-border/60 bg-muted/15 py-6 sm:py-8'
+  const { t } = useLang()
+  const values = valueKeys.map((k) => t(k))
 
   return (
-    <div className={wrapperClass}>
-      <ValuesTrack direction="left" variant={variant} />
-    </div>
+    <section
+      className={
+        variant === 'dark'
+          ? 'border-y border-foreground/[0.08] bg-background/40 py-10 backdrop-blur-sm sm:py-12'
+          : 'border-y border-foreground/[0.08] bg-background py-12 sm:py-16'
+      }
+    >
+      <Track direction="left" values={values} />
+    </section>
   )
 }

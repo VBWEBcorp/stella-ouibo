@@ -1,7 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git pull *)"
+      "Bash(git pull *)",
+      "WebFetch(domain:stellamua.it)",
+      "WebFetch(domain:www.stellamua.it)",
+      "WebFetch(domain:makeupartistparis.my.canva.site)",
+      "Bash(git -C \"/c/Users/conta/OneDrive/Desktop/Cursor/Stella\" status)",
+      "Bash(git -C \"/c/Users/conta/OneDrive/Desktop/Cursor/Stella\" log --oneline -10)",
+      "Bash(git -C \"/c/Users/conta/OneDrive/Desktop/Cursor/Stella\" diff --stat)",
+      "Bash(git -C \"/c/Users/conta/OneDrive/Desktop/Cursor/Stella\" diff .claude/settings.json)",
+      "Bash(git -C \"/c/Users/conta/OneDrive/Desktop/Cursor/Stella\" add .)",
+      "Bash(git -C /c/Users/conta/OneDrive/Desktop/Cursor/Stella commit -m ' *)"
     ]
   }
 }

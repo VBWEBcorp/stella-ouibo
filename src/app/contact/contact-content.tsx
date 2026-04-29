@@ -1,153 +1,255 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { Instagram, Mail, MapPin, Phone } from 'lucide-react'
 
 import { PageHero } from '@/components/sections/page-hero'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useContent } from '@/hooks/use-content'
 import { siteConfig } from '@/lib/seo'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-const defaults = {
-  hero: {
-    eyebrow: 'Contact',
-    title: 'Parlons de votre projet',
-    description: 'Remplissez le formulaire ci-dessous ou contactez-nous directement. Nous répondons sous 24h.',
-    image: 'https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&w=1920&q=80',
-  },
-  info: {
-    phone: siteConfig.phone,
-    email: siteConfig.email,
-    street: siteConfig.address.street,
-    postalCode: siteConfig.address.postalCode,
-    city: siteConfig.address.city,
-  },
-}
+const services = [
+  'Red Carpet & Premieres',
+  'Editorial & Magazine',
+  'Fashion Week',
+  'VIP & Private Event',
+  'Bridal',
+  'Other',
+]
 
 export function ContactContent() {
-  const { data } = useContent('contact', defaults)
-  const hero = data.hero ?? defaults.hero
-  const info = data.info ?? defaults.info
-
-  // Fallback vers siteConfig si les champs sont vides
-  const phone = info.phone || siteConfig.phone
-  const email = info.email || siteConfig.email
-  const street = info.street || siteConfig.address.street
-  const postalCode = info.postalCode || siteConfig.address.postalCode
-  const city = info.city || siteConfig.address.city
-
   return (
     <>
       <PageHero
-        eyebrow={hero.eyebrow}
-        title={hero.title}
-        description={hero.description}
-        image={hero.image}
+        eyebrow="Contact"
+        title="Let's talk."
+        description="Pour toute demande de booking, de collaboration éditoriale ou d'événement privé. Réponse sous 24h."
+        image="https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=1920&q=85"
         breadcrumb="Contact"
       />
 
-      <section className="border-b border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+      <section className="border-b border-foreground/[0.08] bg-background">
+        <div className="mx-auto max-w-[1440px] px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-32">
+          <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+            {/* Form */}
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, ease }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.7, ease }}
+              className="lg:col-span-7"
             >
-              <Card className="rounded-2xl border-border/80 bg-card/70 shadow-[var(--shadow-md)] ring-1 ring-foreground/5">
-                <CardHeader>
-                  <CardTitle className="font-display text-lg">Envoyer un message</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <div className="space-y-2">
-                        <Label htmlFor="firstname">Prénom</Label>
-                        <Input id="firstname" name="firstname" placeholder="Jean" autoComplete="given-name" className="h-11 rounded-xl" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="lastname">Nom</Label>
-                        <Input id="lastname" name="lastname" placeholder="Dupont" autoComplete="family-name" className="h-11 rounded-xl" />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" name="email" type="email" placeholder="jean@entreprise.fr" autoComplete="email" className="h-11 rounded-xl" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Téléphone (optionnel)</Label>
-                      <Input id="phone" name="phone" type="tel" placeholder="06 12 34 56 78" autoComplete="tel" className="h-11 rounded-xl" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="message">Votre message</Label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows={5}
-                        placeholder="Décrivez votre projet en quelques mots..."
-                        className="w-full rounded-xl border border-input bg-transparent px-3 py-2.5 text-sm leading-relaxed text-foreground transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                      />
-                    </div>
-                    <Button type="submit" size="lg" className="w-full">Envoyer le message</Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </motion.div>
+              <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+                Booking request
+              </p>
+              <h2 className="mt-5 font-display text-3xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-4xl lg:text-[2.8rem]">
+                Tell me about
+                <br /> your <span className="italic text-gold">project</span>.
+              </h2>
 
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, ease, delay: 0.06 }}
-              className="space-y-5"
-            >
-              <Card className="rounded-2xl border-border/80 bg-card/70 shadow-[var(--shadow-sm)] ring-1 ring-foreground/5">
-                <CardContent className="space-y-6 pt-6">
-                  <div className="flex items-start gap-4">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15">
-                      <Phone className="size-4" aria-hidden />
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">Téléphone</p>
-                      <a href={`tel:${phone}`} className="text-sm text-muted-foreground hover:text-foreground">{phone}</a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15">
-                      <Mail className="size-4" aria-hidden />
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">Email</p>
-                      <a href={`mailto:${email}`} className="text-sm text-muted-foreground hover:text-foreground">{email}</a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15">
-                      <MapPin className="size-4" aria-hidden />
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">Adresse</p>
-                      <p className="text-sm text-muted-foreground">{street}<br />{postalCode} {city}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <div className="overflow-hidden rounded-2xl border border-border/80 bg-muted/30 shadow-[var(--shadow-sm)] ring-1 ring-foreground/5">
-                <div className="flex h-56 items-center justify-center text-sm text-muted-foreground">
-                  <p>Intégrez ici votre carte Google Maps<br /><span className="text-xs">(iframe ou API)</span></p>
+              <form
+                className="mt-12 space-y-7"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <div className="grid gap-7 sm:grid-cols-2">
+                  <Field label="First name" name="firstname" placeholder="Claudia" />
+                  <Field label="Last name" name="lastname" placeholder="Stella" />
                 </div>
-              </div>
+
+                <Field
+                  label="Email"
+                  name="email"
+                  type="email"
+                  placeholder="you@studio.com"
+                />
+                <Field
+                  label="Phone (optional)"
+                  name="phone"
+                  type="tel"
+                  placeholder="+33 6 ..."
+                />
+
+                <div className="space-y-2">
+                  <label className="block font-display text-[10px] uppercase tracking-[0.32em] text-foreground/55">
+                    Type of service
+                  </label>
+                  <select
+                    name="service"
+                    defaultValue=""
+                    className="w-full appearance-none border-0 border-b border-foreground/[0.18] bg-transparent py-3 font-display text-base text-foreground focus:border-gold focus:outline-none"
+                  >
+                    <option value="" disabled className="bg-background">
+                      Select a service
+                    </option>
+                    {services.map((s) => (
+                      <option key={s} value={s} className="bg-background">
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <Field
+                  label="Date / period"
+                  name="date"
+                  placeholder="Cannes 2026 · 16/05"
+                />
+
+                <div className="space-y-2">
+                  <label className="block font-display text-[10px] uppercase tracking-[0.32em] text-foreground/55">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    rows={5}
+                    placeholder="Brief, lieu, type d'événement, références éventuelles..."
+                    className="w-full resize-none border-0 border-b border-foreground/[0.18] bg-transparent py-3 text-base leading-relaxed text-foreground placeholder:text-foreground/25 focus:border-gold focus:outline-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="group inline-flex items-center gap-3 bg-gold px-9 py-4 font-display text-[11px] font-medium uppercase tracking-[0.32em] text-background transition-all duration-300 hover:bg-foreground"
+                >
+                  Send request
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </button>
+              </form>
             </motion.div>
+
+            {/* Info column */}
+            <motion.aside
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.7, ease, delay: 0.1 }}
+              className="lg:col-span-5"
+            >
+              <div className="border border-foreground/[0.08] bg-foreground/[0.015] p-10">
+                <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+                  Direct contact
+                </p>
+                <ul className="mt-8 space-y-7">
+                  <ContactRow
+                    icon={<Mail className="size-4" />}
+                    label="Email"
+                    value={siteConfig.email}
+                    href={`mailto:${siteConfig.email}`}
+                  />
+                  <ContactRow
+                    icon={<Phone className="size-4" />}
+                    label="Phone · WhatsApp"
+                    value={siteConfig.phone}
+                    href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
+                  />
+                  <ContactRow
+                    icon={<Instagram className="size-4" />}
+                    label="Instagram"
+                    value="@stella.ceriani.mua"
+                    href={siteConfig.instagram}
+                  />
+                  <ContactRow
+                    icon={<MapPin className="size-4" />}
+                    label="Studio"
+                    value="Paris · Worldwide on request"
+                  />
+                </ul>
+              </div>
+
+              <div className="mt-8 border border-gold/40 bg-background p-10">
+                <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+                  Cannes 2026
+                </p>
+                <p className="mt-5 font-display text-3xl leading-tight text-foreground">
+                  Du 12 au 23 mai
+                </p>
+                <p className="mt-3 text-[14px] leading-relaxed text-foreground/60">
+                  Bookings ouverts pour le Festival de Cannes 2026. Les places partent vite, réservez dès aujourd&apos;hui.
+                </p>
+              </div>
+
+              <p className="mt-8 font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40">
+                EN · FR · IT · réponse sous 24h
+              </p>
+            </motion.aside>
           </div>
         </div>
       </section>
     </>
   )
+}
+
+function Field({
+  label,
+  name,
+  type = 'text',
+  placeholder,
+}: {
+  label: string
+  name: string
+  type?: string
+  placeholder?: string
+}) {
+  return (
+    <div className="space-y-2">
+      <label
+        htmlFor={name}
+        className="block font-display text-[10px] uppercase tracking-[0.32em] text-foreground/55"
+      >
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        className="w-full border-0 border-b border-foreground/[0.18] bg-transparent py-3 text-base text-foreground placeholder:text-foreground/25 focus:border-gold focus:outline-none"
+      />
+    </div>
+  )
+}
+
+function ContactRow({
+  icon,
+  label,
+  value,
+  href,
+}: {
+  icon: React.ReactNode
+  label: string
+  value: string
+  href?: string
+}) {
+  const content = (
+    <div className="flex items-start gap-4">
+      <span className="flex size-10 shrink-0 items-center justify-center border border-foreground/[0.15] text-gold">
+        {icon}
+      </span>
+      <div>
+        <p className="font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40">
+          {label}
+        </p>
+        <p className="mt-1 font-display text-base text-foreground">{value}</p>
+      </div>
+    </div>
+  )
+
+  if (href) {
+    return (
+      <li>
+        <a
+          href={href}
+          target={href.startsWith('http') ? '_blank' : undefined}
+          rel={href.startsWith('http') ? 'noreferrer' : undefined}
+          className="block transition-opacity hover:opacity-80"
+        >
+          {content}
+        </a>
+      </li>
+    )
+  }
+
+  return <li>{content}</li>
 }

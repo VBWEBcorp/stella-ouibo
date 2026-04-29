@@ -1,26 +1,28 @@
-import { Globe } from 'lucide-react'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
-import { siteConfig } from '@/lib/seo'
 
 type LogoProps = {
   className?: string
+  variant?: 'default' | 'on-dark'
 }
 
-export function Logo({ className }: LogoProps) {
+export function Logo({ className, variant = 'default' }: LogoProps) {
+  const colorClass =
+    variant === 'on-dark' ? 'text-white' : 'text-foreground'
+
   return (
     <Link
       href="/"
+      aria-label="Stella C · Accueil"
       className={cn(
-        'group inline-flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-foreground transition-opacity hover:opacity-90',
+        'group inline-flex items-baseline gap-[2px] font-display tracking-[0.32em] uppercase transition-opacity hover:opacity-85',
+        colorClass,
         className
       )}
     >
-      <span className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15 transition-transform duration-300 group-hover:scale-[1.03]">
-        <Globe className="size-[18px]" aria-hidden />
-      </span>
-      <span>{siteConfig.name}</span>
+      <span className="text-[15px] font-semibold leading-none">STELLA</span>
+      <span className="text-gold text-[15px] font-semibold italic leading-none">.C</span>
     </Link>
   )
 }

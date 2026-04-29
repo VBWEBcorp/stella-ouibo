@@ -18,21 +18,21 @@ export function SectionTitle({
   return (
     <div
       className={cn(
-        'mx-auto max-w-2xl space-y-4',
+        'mx-auto max-w-3xl space-y-5',
         align === 'center' && 'text-center',
         className
       )}
     >
       {eyebrow ? (
-        <p className="font-display text-xs font-semibold tracking-[0.22em] text-primary uppercase">
+        <p className="font-display text-[10px] font-medium uppercase tracking-[0.4em] text-gold">
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="font-display text-balance text-3xl leading-[1.12] tracking-[-0.02em] text-foreground sm:text-4xl md:text-[2.6rem]">
+      <h2 className="font-display text-balance text-4xl leading-[1.04] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.4rem]">
         {title}
       </h2>
       {description ? (
-        <p className="text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="text-pretty text-base leading-relaxed text-foreground/60 sm:text-lg">
           {description}
         </p>
       ) : null}

@@ -1,4 +1,5 @@
 export function ThemeScript() {
-  const script = `(function(){var t=localStorage.getItem('mymag-theme');if(t==='dark')document.documentElement.classList.add('dark')})();`
+  // Default = dark. Switch persists in localStorage under 'stella-theme'.
+  const script = `(function(){try{var t=localStorage.getItem('stella-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();`
   return <script dangerouslySetInnerHTML={{ __html: script }} />
 }

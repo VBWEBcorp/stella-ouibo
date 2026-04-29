@@ -1,174 +1,240 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Instagram, Mail, Menu, Phone, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Logo } from '@/components/layout/logo'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
-import { Button } from '@/components/ui/button'
+import { useLang } from '@/hooks/use-lang'
+import { siteConfig } from '@/lib/seo'
 import { cn } from '@/lib/utils'
 
-interface NavLink {
-  to: string
-  label: string
-}
-
-const defaultLinks: NavLink[] = [
-  { to: '/', label: 'Accueil' },
-  { to: '/a-propos', label: 'À propos' },
-  { to: '/services', label: 'Services' },
-  { to: '/gallery', label: 'Galerie' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contact', label: 'Contact' },
+const linksMeta = [
+  { to: '/', key: 'nav.home' },
+  { to: '/a-propos', key: 'nav.about' },
+  { to: '/services', key: 'nav.services' },
+  { to: '/gallery', key: 'nav.portfolio' },
+  { to: '/contact', key: 'nav.contact' },
 ]
+
+const ease = [0.32, 0.72, 0.24, 1] as const
 
 export function Navbar() {
   const [open, setOpen] = useState(false)
-  const [links, setLinks] = useState<NavLink[]>(defaultLinks)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
+  const { t } = useLang()
 
   useEffect(() => {
-    const checkFeatures = async () => {
-      try {
-        const [galleryRes, blogRes] = await Promise.all([
-          fetch('/api/gallery/settings'),
-          fetch('/api/blog/settings'),
-        ])
-        const gallery = await galleryRes.json()
-        const blog = await blogRes.json()
-
-        const dynamicLinks: NavLink[] = [
-          { to: '/', label: 'Accueil' },
-          { to: '/a-propos', label: 'À propos' },
-          { to: '/services', label: 'Services' },
-        ]
-
-        if (gallery?.enabled !== false) dynamicLinks.push({ to: '/gallery', label: 'Galerie' })
-        if (blog?.enabled !== false) dynamicLinks.push({ to: '/blog', label: 'Blog' })
-
-        dynamicLinks.push({ to: '/contact', label: 'Contact' })
-        setLinks(dynamicLinks)
-      } catch {
-        // Liens par défaut conservés en cas d'erreur
-      }
-    }
-
-    checkFeatures()
-  }, [])
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => setScrolled(window.scrollY > 12)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 pt-3 sm:pt-4">
-      <div className="mx-auto max-w-6xl px-3 sm:px-4 lg:px-6">
-        <div
-          className={cn(
-            'flex h-14 items-center justify-between gap-2 rounded-2xl border border-border/60 bg-background/75 pl-4 pr-1.5 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 transition-all duration-300',
-            scrolled
-              ? 'shadow-[0_10px_30px_-12px_rgba(15,23,42,0.18)] border-border/80'
-              : 'shadow-[0_4px_14px_-6px_rgba(15,23,42,0.08)]'
-          )}
-        >
+    <>
+      <header
+        className={cn(
+          'fixed inset-x-0 top-0 z-50 transition-all duration-500',
+          scrolled
+            ? 'bg-background/85 backdrop-blur-xl border-b border-foreground/[0.08]'
+            : 'bg-transparent border-b border-transparent'
+        )}
+      >
+        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:h-20 sm:px-8 lg:h-24 lg:px-12">
           <Logo />
 
-          <nav
-            className="hidden items-center gap-0.5 lg:flex"
-            aria-label="Navigation principale"
-          >
-            {links.map((l) => {
-              const isActive = pathname === l.to
-              return (
-                <Link
-                  key={l.to}
-                  href={l.to}
-                  className={cn(
-                    'relative whitespace-nowrap rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60',
-                    isActive
-                      ? 'text-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
-                  )}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-active-pill"
-                      className="absolute inset-0 rounded-lg bg-muted"
-                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                      aria-hidden
-                    />
-                  )}
-                  <span className="relative">{l.label}</span>
-                </Link>
-              )
-            })}
-          </nav>
+          <div className="flex items-center gap-3">
+            <span className="hidden font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40 sm:block">
+              Paris · Worldwide
+            </span>
 
-          <div className="flex shrink-0 items-center gap-1">
             <ThemeToggle />
-            <Button size="sm" className="hidden whitespace-nowrap rounded-xl sm:inline-flex" asChild>
-              <Link href="/contact">Nous contacter</Link>
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="rounded-full lg:hidden"
-              aria-expanded={open}
-              aria-controls="mobile-nav"
-              aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
-              onClick={() => setOpen((v) => !v)}
+
+            <Link
+              href="/contact"
+              className="hidden border border-foreground/30 px-5 py-2.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-foreground transition-all duration-300 hover:border-gold hover:text-gold sm:inline-flex"
             >
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
-            </Button>
+              {t('nav.bookMe')}
+            </Link>
+
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-controls="side-menu"
+              aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+              onClick={() => setOpen(true)}
+              className="group flex items-center gap-2 border border-foreground/20 px-3 py-2 text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+            >
+              <Menu className="size-4" />
+              <span className="hidden font-display text-[10px] uppercase tracking-[0.32em] sm:inline">
+                {t('nav.menu')}
+              </span>
+            </button>
           </div>
         </div>
+      </header>
 
-        <AnimatePresence>
-          {open ? (
+      {/* Side drawer (slide from right) */}
+      <AnimatePresence>
+        {open && (
+          <>
             <motion.div
-              id="mobile-nav"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-2 overflow-hidden rounded-2xl border border-border/60 bg-background/95 shadow-[0_20px_40px_-12px_rgba(15,23,42,0.15)] backdrop-blur-xl lg:hidden"
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-[60] bg-black/65 backdrop-blur-sm"
+            />
+
+            <motion.aside
+              key="panel"
+              id="side-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu de navigation"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.55, ease }}
+              className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-[460px] flex-col border-l border-foreground/[0.08] bg-background shadow-[-32px_0_64px_-12px_rgba(0,0,0,0.45)]"
             >
-              <div className="flex flex-col gap-0.5 p-3">
-                {links.map((l) => (
-                  <Link
-                    key={l.to}
-                    href={l.to}
-                    className={cn(
-                      'rounded-xl px-3 py-2.5 text-sm font-medium transition-colors hover:bg-muted',
-                      pathname === l.to
-                        ? 'bg-muted text-foreground'
-                        : 'text-muted-foreground'
-                    )}
-                    onClick={() => setOpen(false)}
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-                <div className="mt-2 border-t border-border/60 pt-3">
-                  <Button className="w-full rounded-full" asChild>
-                    <Link href="/contact" onClick={() => setOpen(false)}>
-                      Nous contacter
-                    </Link>
-                  </Button>
-                </div>
+              {/* Top bar */}
+              <div className="flex items-center justify-between border-b border-foreground/[0.08] px-7 py-7">
+                <span className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+                  {t('nav.menu')}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  aria-label="Fermer le menu"
+                  className="flex size-10 items-center justify-center border border-foreground/20 text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+                >
+                  <X className="size-4" />
+                </button>
               </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </div>
-    </header>
+
+              {/* Links */}
+              <nav
+                aria-label="Navigation principale mobile"
+                className="flex flex-1 flex-col justify-center gap-1 px-7"
+              >
+                {linksMeta.map((l, i) => (
+                  <motion.div
+                    key={l.to}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.18 + i * 0.06, duration: 0.5, ease }}
+                    className="border-b border-foreground/[0.06] last:border-b-0"
+                  >
+                    <Link
+                      href={l.to}
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        'group flex items-baseline justify-between py-5 transition-colors',
+                        pathname === l.to
+                          ? 'text-gold'
+                          : 'text-foreground hover:text-gold'
+                      )}
+                    >
+                      <span className="flex items-baseline gap-4">
+                        <span className="font-display text-[10px] tracking-[0.32em] text-foreground/35">
+                          0{i + 1}
+                        </span>
+                        <span className="font-display text-3xl font-light tracking-[-0.01em] sm:text-[2.4rem]">
+                          {t(l.key)}
+                        </span>
+                      </span>
+                      <span className="font-display text-base text-foreground/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-gold">
+                        →
+                      </span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+
+              {/* Footer info */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.55, duration: 0.5, ease }}
+                className="space-y-5 border-t border-foreground/[0.08] px-7 py-7"
+              >
+                <Link
+                  href="/contact"
+                  onClick={() => setOpen(false)}
+                  className="flex w-full items-center justify-center gap-3 bg-gold py-4 font-display text-[11px] font-medium uppercase tracking-[0.32em] text-background transition-all duration-300 hover:bg-foreground"
+                >
+                  {t('nav.bookSession')}
+                  <span aria-hidden>→</span>
+                </Link>
+
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <p className="font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40">
+                      {t('nav.directLine')}
+                    </p>
+                    <a
+                      href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
+                      className="font-display text-sm text-foreground transition-colors hover:text-gold"
+                    >
+                      {siteConfig.phone}
+                    </a>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={siteConfig.instagram}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="Instagram"
+                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                    >
+                      <Instagram className="size-4" />
+                    </a>
+                    <a
+                      href={`mailto:${siteConfig.email}`}
+                      aria-label="Email"
+                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                    >
+                      <Mail className="size-4" />
+                    </a>
+                    <a
+                      href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
+                      aria-label="Téléphone"
+                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                    >
+                      <Phone className="size-4" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   )
 }

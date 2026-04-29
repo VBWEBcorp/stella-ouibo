@@ -4,7 +4,7 @@ import { ContactContent } from './contact-content'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/components/seo/json-ld'
 
 const description =
-  'Contactez-nous pour discuter de votre projet. Devis gratuit, réponse rapide.'
+  'Booking & contact · Claudia Stella, makeup & hair artist. Cannes 2026, editorial, fashion week. Réponse sous 24h.'
 
 export const metadata: Metadata = {
   title: 'Contact',

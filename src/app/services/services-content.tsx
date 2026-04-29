@@ -1,77 +1,209 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import {
-  BarChart3, Code, Globe, Megaphone, Palette, Search, ShieldCheck, Smartphone,
-} from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 import { CtaSection } from '@/components/sections/cta-section'
 import { PageHero } from '@/components/sections/page-hero'
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useContent } from '@/hooks/use-content'
 
 const ease = [0.22, 1, 0.36, 1] as const
-const defaultIcons = [Globe, Smartphone, Search, Palette, Megaphone, Code, ShieldCheck, BarChart3]
 
-const defaults = {
-  hero: {
-    eyebrow: 'Services',
-    title: "Tout ce qu'il faut pour réussir en ligne",
-    description: "Des prestations complètes, de la conception à l'accompagnement continu, adaptées à toutes les tailles d'entreprise.",
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1920&q=80',
+const services = [
+  {
+    n: '01',
+    title: 'Red Carpet & Premieres',
+    tag: 'Cannes · Venezia · Berlinale',
+    desc: 'Préparation VIP en hôtels de luxe avant tapis rouge, premières et galas. Five-star pampering, intemporal glamour, perfect timing.',
+    image: 'https://images.unsplash.com/photo-1521577352947-9bb58764b69a?auto=format&fit=crop&w=1100&q=85',
+    bullets: [
+      'Préparation hôtelière VIP (Ritz, Carlton)',
+      'Coiffure & maquillage red carpet',
+      'Retouches sur place pendant l\'événement',
+      'Photo / interview / after-party',
+    ],
+    price: 'Sur devis',
   },
-  services: [
-    { title: 'Création de site vitrine', description: 'Un site moderne, rapide et responsive qui présente clairement votre activité et inspire confiance à vos visiteurs.' },
-    { title: 'Application web', description: 'Outils métier, plateformes de réservation, espaces clients : des applications pensées pour simplifier votre quotidien.' },
-    { title: 'Référencement naturel (SEO)', description: 'Optimisation technique, contenu stratégique et suivi de positionnement pour gagner en visibilité sur Google.' },
-    { title: 'Identité visuelle', description: 'Logo, charte graphique, supports de communication : une image cohérente qui vous ressemble.' },
-    { title: 'Communication digitale', description: 'Stratégie de contenu, réseaux sociaux et campagnes pour développer votre audience en ligne.' },
-    { title: 'Développement sur mesure', description: 'Intégrations, automatisations, API : des solutions techniques taillées pour vos besoins spécifiques.' },
-    { title: 'Maintenance & sécurité', description: 'Mises à jour, sauvegardes, monitoring et corrections pour un site toujours performant et sécurisé.' },
-    { title: 'Analyse & reporting', description: 'Tableaux de bord clairs pour suivre vos performances, comprendre vos visiteurs et ajuster votre stratégie.' },
-  ],
-}
+  {
+    n: '02',
+    title: 'Editorial & Magazine',
+    tag: 'Vogue · Harcourt · L\'Officiel',
+    desc: 'Direction beauté pour shootings éditoriaux, couvertures et campagnes. Travail à quatre mains avec photographes, stylistes et directeurs artistiques.',
+    image: 'https://images.unsplash.com/photo-1503236823255-94609f598e71?auto=format&fit=crop&w=1100&q=85',
+    bullets: [
+      'Maquillage & coiffure éditoriaux',
+      'Recherche et tests beauté',
+      'Plusieurs looks par session',
+      'Adaptable studio ou extérieur',
+    ],
+    price: 'Sur devis',
+  },
+  {
+    n: '03',
+    title: 'Fashion Week & Runway',
+    tag: 'Paris · Milano · London',
+    desc: 'Beauty looks signature pour défilés et présentations couture. Travail en équipe avec backstage managers, briefings DA, exécution rapide et précise.',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1100&q=85',
+    bullets: [
+      'Briefing DA & key look',
+      'Direction d\'équipe backstage',
+      'Reproduction exacte sur 20+ mannequins',
+      'Disponibilité saisonnière (FW/SS)',
+    ],
+    price: 'Sur devis',
+  },
+  {
+    n: '04',
+    title: 'VIP & Private Events',
+    tag: 'Galas · Mariages · Soirées',
+    desc: 'Service privé pour événements VIP, mariages d\'exception, gala dinners et soirées sur-mesure. Intimité, élégance et prestation 5 étoiles.',
+    image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=1100&q=85',
+    bullets: [
+      'Maquillage mariée + essai',
+      'Préparation cortège (mère, demoiselles)',
+      'Forfait soirée sur place',
+      'Coiffure intégrée',
+    ],
+    price: 'À partir de 850 €',
+  },
+]
+
+const process = [
+  { n: '01', title: 'First contact', desc: 'Email ou téléphone. Brief rapide, dates et lieu.' },
+  { n: '02', title: 'Mood & references', desc: 'Échange de moodboards, look de référence et brief beauté.' },
+  { n: '03', title: 'Devis & contrat', desc: 'Proposition chiffrée, contrat signé, acompte de réservation.' },
+  { n: '04', title: 'Day of', desc: 'Préparation, exécution, retouches et follow-up. Ponctualité absolue.' },
+]
 
 export function ServicesContent() {
-  const { data } = useContent('services', defaults)
-  const hero = data.hero ?? defaults.hero
-  const services = data.services ?? defaults.services
-
   return (
     <>
       <PageHero
-        eyebrow={hero.eyebrow}
-        title={hero.title}
-        description={hero.description}
-        image={hero.image}
+        eyebrow="Services"
+        title="From backstage to spotlight."
+        description="Quatre univers, une signature. Une exigence couture italienne, une élégance parisienne. Disponible Paris, Cannes, Milan, Londres et worldwide."
+        image="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?auto=format&fit=crop&w=1920&q=85"
         breadcrumb="Services"
       />
 
-      <section className="border-b border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((s: any, i: number) => {
-              const Icon = defaultIcons[i] ?? Globe
-              return (
-                <motion.div
-                  key={s.title || i}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.45, ease, delay: i * 0.03 }}
+      {/* Services list — alternating large blocks */}
+      <section className="bg-background">
+        {services.map((s, i) => {
+          const isReverse = i % 2 === 1
+          return (
+            <div
+              key={s.n}
+              className="border-b border-foreground/[0.08]"
+            >
+              <div className="mx-auto max-w-[1440px] px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+                <div
+                  className={`grid items-center gap-12 lg:grid-cols-12 lg:gap-20 ${
+                    isReverse ? 'lg:[direction:rtl]' : ''
+                  }`}
                 >
-                  <Card className="h-full rounded-2xl border-border/80 bg-card/70 shadow-[var(--shadow-sm)] ring-1 ring-foreground/5 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]">
-                    <CardHeader>
-                      <span className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-1 ring-primary/15">
-                        <Icon className="size-5" aria-hidden />
-                      </span>
-                      <CardTitle className="font-display text-base">{s.title}</CardTitle>
-                      <CardDescription className="text-sm leading-relaxed">{s.description}</CardDescription>
-                    </CardHeader>
-                  </Card>
-                </motion.div>
-              )
-            })}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.8, ease }}
+                    className={`relative ${isReverse ? '[direction:ltr]' : ''} lg:col-span-7`}
+                  >
+                    <div className="relative aspect-[5/4] overflow-hidden">
+                      <Image
+                        src={s.image}
+                        alt=""
+                        fill
+                        sizes="(min-width:1024px) 60vw, 100vw"
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                    </div>
+                    <span className="absolute left-4 top-4 font-display text-[10px] uppercase tracking-[0.32em] text-white/70">
+                      {s.tag}
+                    </span>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.8, ease, delay: 0.1 }}
+                    className={`${isReverse ? '[direction:ltr]' : ''} lg:col-span-5`}
+                  >
+                    <span className="font-display text-[11px] uppercase tracking-[0.32em] text-gold">
+                      Service {s.n}
+                    </span>
+                    <h2 className="mt-4 font-display text-4xl leading-[1.04] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.4rem]">
+                      {s.title}
+                    </h2>
+                    <p className="mt-6 text-[15px] leading-relaxed text-foreground/65 sm:text-base">
+                      {s.desc}
+                    </p>
+
+                    <ul className="mt-8 space-y-3 border-t border-foreground/[0.08] pt-6">
+                      {s.bullets.map((b) => (
+                        <li
+                          key={b}
+                          className="flex items-start gap-3 text-[14px] text-foreground/75"
+                        >
+                          <span className="mt-2 inline-block h-px w-4 shrink-0 bg-gold" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-foreground/[0.08] pt-6">
+                      <div>
+                        <p className="font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40">
+                          Tarif
+                        </p>
+                        <p className="mt-1 font-display text-xl text-foreground">{s.price}</p>
+                      </div>
+                      <Link
+                        href="/contact"
+                        className="group inline-flex items-center gap-3 border border-foreground/30 px-7 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.32em] text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+                      >
+                        Demander un devis
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">
+                          →
+                        </span>
+                      </Link>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </section>
+
+      {/* Process */}
+      <section className="border-b border-foreground/[0.08] bg-background">
+        <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
+          <div className="max-w-2xl">
+            <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+              Process
+            </p>
+            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.6rem]">
+              Simple,
+              <br /> <span className="italic text-gold">precise</span>, on time.
+            </h2>
+          </div>
+
+          <div className="mt-16 grid gap-px bg-foreground/[0.08] sm:grid-cols-2 lg:grid-cols-4">
+            {process.map((p) => (
+              <div key={p.n} className="bg-background p-10">
+                <span className="font-display text-[11px] uppercase tracking-[0.32em] text-gold">
+                  {p.n}
+                </span>
+                <h3 className="mt-4 font-display text-2xl tracking-tight text-foreground">
+                  {p.title}
+                </h3>
+                <p className="mt-3 text-[14px] leading-relaxed text-foreground/55">
+                  {p.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

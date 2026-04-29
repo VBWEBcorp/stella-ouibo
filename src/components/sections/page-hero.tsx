@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, Home } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -17,7 +16,7 @@ type PageHeroProps = {
 
 export function PageHero({ eyebrow, title, description, image, breadcrumb }: PageHeroProps) {
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden pt-16 sm:pt-20 lg:pt-24">
       {/* Background image */}
       <div className="absolute inset-0" aria-hidden>
         <Image
@@ -28,58 +27,54 @@ export function PageHero({ eyebrow, title, description, image, breadcrumb }: Pag
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+        <div className="absolute inset-0 bg-black/65" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/0 to-background" />
       </div>
 
-      {/* Soft fade-out to page background at bottom */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-background sm:h-40"
-      />
-
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
         {/* Breadcrumb */}
-        <nav aria-label="Fil d'Ariane" className="pt-24 sm:pt-28">
-          <ol className="flex flex-wrap items-center gap-1.5 text-xs text-white/50">
-            <li className="flex items-center gap-1.5">
-              <Link
-                href="/"
-                className="flex items-center gap-1 transition-colors hover:text-white/80"
-              >
-                <Home className="size-3" aria-hidden />
-                <span>Accueil</span>
+        <nav aria-label="Fil d'Ariane" className="pt-12 sm:pt-16">
+          <ol className="flex flex-wrap items-center gap-3 font-display text-[10px] uppercase tracking-[0.32em] text-white/55">
+            <li>
+              <Link href="/" className="transition-colors hover:text-white">
+                Home
               </Link>
             </li>
-            <li className="flex items-center gap-1.5">
-              <ChevronRight className="size-3 text-white/30" aria-hidden />
-              <span aria-current="page" className="font-medium text-white/70">
-                {breadcrumb}
-              </span>
+            <li aria-hidden className="text-white/30">/</li>
+            <li aria-current="page" className="text-gold">
+              {breadcrumb}
             </li>
           </ol>
         </nav>
 
         {/* Content */}
-        <div className="pb-20 pt-14 sm:pb-24 sm:pt-16 lg:pb-32 lg:pt-20">
+        <div className="grid items-end gap-8 pb-24 pt-20 lg:grid-cols-12 lg:gap-16 lg:pb-32 lg:pt-32">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-            className="mx-auto max-w-3xl text-center"
+            transition={{ duration: 0.8, ease }}
+            className="lg:col-span-8"
           >
-            <p className="font-display text-xs font-semibold tracking-[0.22em] uppercase text-white/70">
+            <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
               {eyebrow}
             </p>
-            <h1 className="mt-6 font-display text-balance text-4xl leading-[1.08] tracking-[-0.03em] text-white sm:text-5xl">
+            <h1 className="mt-6 font-display text-5xl leading-[0.98] tracking-[-0.03em] text-white sm:text-7xl lg:text-[6.5rem]">
               {title}
             </h1>
-            {description && (
-              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-white/70">
+          </motion.div>
+
+          {description && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease, delay: 0.15 }}
+              className="lg:col-span-4 lg:pb-4"
+            >
+              <p className="border-l border-gold/70 pl-5 text-[15px] leading-relaxed text-white/75 sm:text-base">
                 {description}
               </p>
-            )}
-          </motion.div>
+            </motion.div>
+          )}
         </div>
       </div>
     </section>
