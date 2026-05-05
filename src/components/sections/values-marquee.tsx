@@ -9,9 +9,9 @@ const valueKeys = [
   'marquee.couture',
   'marquee.fashionWeek',
   'marquee.bridal',
-  'marquee.cinema',
+  'marquee.corporate',
   'marquee.vipEvents',
-  'marquee.magazine',
+  'marquee.masterclass',
   'marquee.backstage',
 ]
 
@@ -30,7 +30,7 @@ function Track({
       className="inline-flex shrink-0 items-center gap-10 whitespace-nowrap font-display text-2xl font-light italic text-foreground/80 sm:text-3xl lg:text-[2.6rem]"
     >
       {label}
-      <span aria-hidden className="text-gold/70">✦</span>
+      <span aria-hidden className="font-sans not-italic text-foreground/30">·</span>
     </span>
   ))
 

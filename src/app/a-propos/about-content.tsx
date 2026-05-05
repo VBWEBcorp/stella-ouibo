@@ -5,54 +5,49 @@ import Image from 'next/image'
 
 import { CtaSection } from '@/components/sections/cta-section'
 import { PageHero } from '@/components/sections/page-hero'
+import { useLang } from '@/hooks/use-lang'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 const journey = [
   {
     year: '2019',
-    title: 'Premier coup de pinceau',
-    desc: 'Début de carrière à Milan, formée aux écoles italiennes du maquillage de mode et d\'opéra.',
+    titleFr: 'Premiers coups de pinceau',
+    titleEn: 'First brushstrokes',
+    descFr: 'Début de carrière en Italie, formée aux écoles italiennes du maquillage de mode et d\'opéra.',
+    descEn: 'Career begins in Italy, trained at Italian schools of fashion and opera makeup.',
   },
   {
     year: '2021',
-    title: 'Festival de Cannes · première édition',
-    desc: 'Premier tapis rouge. Préparation VIP en hôtels de luxe pour talents internationaux.',
+    titleFr: 'Festival de Cannes · première édition',
+    titleEn: 'Festival de Cannes · first edition',
+    descFr: 'Premier tapis rouge. Préparation VIP en hôtels de luxe pour talents internationaux.',
+    descEn: 'First red carpet. VIP preparation in luxury hotels for international talents.',
   },
   {
     year: '2022',
-    title: 'Vogue China · L\'Oréal · Givenchy',
-    desc: 'Direction beauté pour magazines et grandes maisons de couture.',
+    titleFr: 'Vogue China · L\'Oréal · Givenchy',
+    titleEn: 'Vogue China · L\'Oréal · Givenchy',
+    descFr: 'Direction beauté pour magazines et grandes maisons de couture.',
+    descEn: 'Beauty direction for magazines and major couture houses.',
   },
   {
     year: '2024',
-    title: 'Installation à Paris',
-    desc: 'Studio à Paris, collaborations internationales : Milan, Londres, New York.',
+    titleFr: 'Installation à Paris',
+    titleEn: 'Move to Paris',
+    descFr: 'Studio à Paris, collaborations internationales : Milan, Londres, New York.',
+    descEn: 'Studio in Paris, international collaborations: Milan, London, New York.',
   },
   {
     year: '2026',
-    title: 'Cannes 2026 · 6e édition',
-    desc: '12 au 23 mai. Réservations ouvertes pour le Festival.',
+    titleFr: 'Cannes 2026 · 6e édition',
+    titleEn: 'Cannes 2026 · 6th edition',
+    descFr: 'Du 12 au 23 mai. Réservations ouvertes pour le Festival.',
+    descEn: 'May 12 to 23. Bookings open for the Festival.',
   },
 ]
 
-const principles = [
-  {
-    n: '01',
-    title: 'Harmony',
-    desc: '« It\'s all about harmony of colors and shapes. » Une beauté qui sert le visage, jamais l\'inverse.',
-  },
-  {
-    n: '02',
-    title: 'Precision',
-    desc: 'Le rouge à lèvres parfait n\'est pas une couleur, c\'est une ligne. Chaque trait pensé, chaque texture maîtrisée.',
-  },
-  {
-    n: '03',
-    title: 'Discretion',
-    desc: 'Préparation VIP en suites privées. Confidentialité, ponctualité et calme avant les projecteurs.',
-  },
-]
+const valueKeys = ['val.1', 'val.2', 'val.3', 'val.4', 'val.5']
 
 const editorial = [
   'https://images.unsplash.com/photo-1496440737103-cd596325d314?auto=format&fit=crop&w=900&q=85',
@@ -62,14 +57,20 @@ const editorial = [
 ]
 
 export function AboutContent() {
+  const { t, lang } = useLang()
+
   return (
     <>
       <PageHero
-        eyebrow="The Artist"
+        eyebrow={lang === 'fr' ? 'L\'Artiste' : 'The Artist'}
         title="Claudia Stella Ceriani"
-        description="Maquilleuse et coiffeuse italienne basée à Paris. Beauté éditoriale, mode, tapis rouge et événements VIP. Disponible worldwide."
+        description={
+          lang === 'fr'
+            ? 'Maquilleuse mode, célébrités et événementiel. Italienne basée à Paris. Service de luxe, sans limite de déplacement.'
+            : 'Fashion, celebrity and event makeup artist. Italian, based in Paris. Luxury service, no travel limits.'
+        }
         image="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1920&q=85"
-        breadcrumb="À propos"
+        breadcrumb={lang === 'fr' ? 'À propos' : 'About'}
       />
 
       {/* Bio + portrait */}
@@ -83,37 +84,32 @@ export function AboutContent() {
               transition={{ duration: 0.8, ease }}
               className="lg:col-span-7"
             >
-              <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
-                Profil
+              <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.4em] text-foreground/55">
+                {lang === 'fr' ? 'Profil' : 'Profile'}
               </p>
-              <h2 className="mt-5 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
-                <span className="italic font-light text-gold">Italian</span> heart,
-                <br /> Parisian discipline.
+              <h2 className="mt-5 font-display text-[40px] font-light italic leading-[1.04] tracking-[-0.02em] text-foreground sm:text-[56px] lg:text-[68px]">
+                {lang === 'fr' ? 'Less is more.' : 'Less is more.'}
               </h2>
 
               <div className="mt-10 space-y-6 text-[15px] leading-[1.8] text-foreground/70 sm:text-base">
-                <p>
-                  Née en Italie, Claudia Stella Ceriani développe très tôt une obsession pour la peau, la lumière et la précision du trait. Formée aux écoles italiennes du maquillage de mode et d&apos;opéra, elle pose ses pinceaux à Paris en 2024 après plusieurs années entre Milan et la Côte d&apos;Azur.
-                </p>
-                <p>
-                  Cinq éditions consécutives au Festival de Cannes, des collaborations avec Vogue China, L&apos;Oréal Paris, Givenchy, Harcourt et amfAR. Claudia conjugue l&apos;exigence couture italienne et l&apos;élégance parisienne dans chacune de ses prestations.
-                </p>
-                <p className="border-l border-gold/60 pl-5 italic text-foreground/85">
-                  &ldquo;Red lips, always looking for the perfect line, color and form.&rdquo;
+                <p>{t('story.p1')}</p>
+                <p>{t('story.p2')}</p>
+                <p className="border-l border-foreground/30 pl-5 font-display italic text-foreground/85">
+                  {t('story.quote')}
                 </p>
               </div>
 
               <div className="mt-12 grid grid-cols-2 gap-px border border-foreground/[0.08] bg-foreground/[0.08] sm:grid-cols-3">
                 {[
-                  { k: 'Languages', v: 'EN · FR · IT' },
-                  { k: 'Based in', v: 'Paris' },
-                  { k: 'Cannes editions', v: '6 (2021–2026)' },
+                  { k: lang === 'fr' ? 'Langues' : 'Languages', v: 'EN · FR · IT' },
+                  { k: lang === 'fr' ? 'Basée à' : 'Based in', v: 'Paris' },
+                  { k: lang === 'fr' ? 'Cannes' : 'Cannes', v: '2021 → 2026' },
                 ].map((d) => (
                   <div key={d.k} className="bg-background p-5">
-                    <p className="font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40">
+                    <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/40">
                       {d.k}
                     </p>
-                    <p className="mt-2 font-display text-base text-foreground">{d.v}</p>
+                    <p className="mt-2 font-display text-base italic text-foreground">{d.v}</p>
                   </div>
                 ))}
               </div>
@@ -135,13 +131,47 @@ export function AboutContent() {
                   className="object-cover"
                 />
               </div>
-              <div className="absolute -bottom-5 -left-5 hidden border border-gold/50 bg-background px-5 py-4 lg:block">
-                <p className="font-display text-[10px] uppercase tracking-[0.32em] text-gold">
-                  Portrait
-                </p>
-                <p className="mt-2 font-display text-lg italic text-foreground">Paris, 2025</p>
-              </div>
+              <figcaption className="mt-3 font-sans text-[10px] font-semibold uppercase tracking-[0.28em] text-foreground/45">
+                {lang === 'fr' ? 'Portrait · Paris, 2025' : 'Portrait · Paris, 2025'}
+              </figcaption>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Valeurs */}
+      <section className="border-b border-foreground/[0.08] bg-background">
+        <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
+          <div className="flex items-end justify-between gap-6 border-b border-foreground/[0.12] pb-8">
+            <h2 className="font-sans text-[28px] font-bold uppercase tracking-[-0.01em] text-foreground sm:text-[40px] lg:text-[56px]">
+              {t('val.title')}
+            </h2>
+            <span className="hidden font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/45 sm:inline">
+              {t('val.eyebrow')}
+            </span>
+          </div>
+
+          <div className="mt-12 grid gap-px bg-foreground/[0.08] sm:grid-cols-2 lg:grid-cols-5 lg:mt-16">
+            {valueKeys.map((k, i) => (
+              <motion.div
+                key={k}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, ease, delay: i * 0.06 }}
+                className="bg-background p-8 lg:p-10"
+              >
+                <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.32em] text-foreground/40">
+                  0{i + 1}
+                </span>
+                <h3 className="mt-6 font-display text-3xl italic tracking-tight text-foreground">
+                  {t(`${k}.title`)}
+                </h3>
+                <p className="mt-4 text-[14px] leading-[1.7] text-foreground/55">
+                  {t(`${k}.desc`)}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -149,17 +179,13 @@ export function AboutContent() {
       {/* Journey */}
       <section className="border-b border-foreground/[0.08] bg-background">
         <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
-          <div className="max-w-2xl">
-            <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
-              Journey
-            </p>
-            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.6rem]">
-              A path lit by
-              <br /> <span className="italic text-gold">spotlights</span>.
+          <div className="flex items-end justify-between gap-6 border-b border-foreground/[0.12] pb-8">
+            <h2 className="font-sans text-[28px] font-bold uppercase tracking-[-0.01em] text-foreground sm:text-[40px] lg:text-[56px]">
+              {lang === 'fr' ? 'Parcours' : 'Journey'}
             </h2>
           </div>
 
-          <ul className="mt-16 divide-y divide-white/[0.08] border-y border-foreground/[0.08]">
+          <ul className="mt-12 divide-y divide-foreground/[0.08] lg:mt-16">
             {journey.map((j, i) => (
               <motion.li
                 key={j.year}
@@ -169,12 +195,12 @@ export function AboutContent() {
                 transition={{ duration: 0.5, ease, delay: i * 0.06 }}
                 className="group grid items-baseline gap-6 py-8 transition-colors hover:bg-foreground/[0.02] sm:grid-cols-[120px_1fr_2fr] sm:gap-10"
               >
-                <span className="font-display text-2xl text-gold sm:text-3xl">{j.year}</span>
-                <span className="font-display text-xl text-foreground sm:text-2xl">
-                  {j.title}
+                <span className="font-display text-2xl italic text-foreground sm:text-3xl">{j.year}</span>
+                <span className="font-sans text-[16px] font-semibold uppercase tracking-[-0.005em] text-foreground sm:text-[20px]">
+                  {lang === 'fr' ? j.titleFr : j.titleEn}
                 </span>
                 <span className="text-[15px] leading-relaxed text-foreground/55">
-                  {j.desc}
+                  {lang === 'fr' ? j.descFr : j.descEn}
                 </span>
               </motion.li>
             ))}
@@ -182,49 +208,13 @@ export function AboutContent() {
         </div>
       </section>
 
-      {/* Principles */}
-      <section className="border-b border-foreground/[0.08] bg-background">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
-          <div className="max-w-2xl">
-            <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
-              Principles
-            </p>
-            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.6rem]">
-              Three rules,
-              <br /> <span className="italic text-gold">always</span>.
-            </h2>
-          </div>
-
-          <div className="mt-16 grid gap-px bg-foreground/[0.08] sm:grid-cols-3">
-            {principles.map((p) => (
-              <div key={p.n} className="bg-background p-10">
-                <span className="font-display text-[11px] uppercase tracking-[0.32em] text-gold">
-                  {p.n}
-                </span>
-                <h3 className="mt-6 font-display text-3xl tracking-tight text-foreground">
-                  {p.title}
-                </h3>
-                <p className="mt-4 text-[15px] leading-relaxed text-foreground/55">
-                  {p.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Editorial gallery */}
       <section className="border-b border-foreground/[0.08] bg-background">
         <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
-                Editorial
-              </p>
-              <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
-                Behind the lens.
-              </h2>
-            </div>
+          <div className="flex items-end justify-between gap-6 border-b border-foreground/[0.12] pb-8">
+            <h2 className="font-sans text-[28px] font-bold uppercase tracking-[-0.01em] text-foreground sm:text-[40px] lg:text-[56px]">
+              {lang === 'fr' ? 'Éditorial' : 'Editorial'}
+            </h2>
           </div>
 
           <div className="mt-12 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
@@ -235,7 +225,7 @@ export function AboutContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.5, ease, delay: i * 0.06 }}
-                className={`relative overflow-hidden ${i % 2 === 0 ? 'aspect-[3/4]' : 'aspect-[3/4] lg:translate-y-8'}`}
+                className="relative aspect-[3/4] overflow-hidden"
               >
                 <Image
                   src={src}

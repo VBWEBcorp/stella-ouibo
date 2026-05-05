@@ -12,6 +12,11 @@ import { useLang } from '@/hooks/use-lang'
 import { siteConfig } from '@/lib/seo'
 import { cn } from '@/lib/utils'
 
+interface NavLink {
+  to: string
+  label: string
+}
+
 const linksMeta = [
   { to: '/', key: 'nav.home' },
   { to: '/a-propos', key: 'nav.about' },
@@ -26,6 +31,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
+  const isHome = pathname === '/'
   const { t } = useLang()
 
   useEffect(() => {
@@ -51,29 +57,49 @@ export function Navbar() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
+  // Sur la home, header transparent au top, sinon white solid au-delà du scroll
+  const headerStyle = !isHome || scrolled
+    ? 'bg-background/85 backdrop-blur-xl border-b border-foreground/[0.08]'
+    : 'bg-transparent border-b border-transparent'
+
+  const textStyle = isHome && !scrolled ? 'text-white' : 'text-foreground'
+
   return (
     <>
       <header
         className={cn(
           'fixed inset-x-0 top-0 z-50 transition-all duration-500',
-          scrolled
-            ? 'bg-background/85 backdrop-blur-xl border-b border-foreground/[0.08]'
-            : 'bg-transparent border-b border-transparent'
+          headerStyle
         )}
       >
-        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:h-20 sm:px-8 lg:h-24 lg:px-12">
-          <Logo />
+        <div className={cn(
+          'mx-auto grid h-16 max-w-[1440px] grid-cols-3 items-center px-5 sm:h-20 sm:px-8 lg:h-24 lg:px-12',
+          textStyle
+        )}>
+          {/* Left : Logo */}
+          <div className="flex items-center justify-start">
+            <Logo />
+          </div>
 
-          <div className="flex items-center gap-3">
-            <span className="hidden font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40 sm:block">
-              Paris · Worldwide
+          {/* Center : tagline (TWG-style) */}
+          <div className="flex items-center justify-center">
+            <span className="hidden font-sans text-[10px] font-semibold uppercase tracking-[0.4em] sm:inline">
+              Makeup Artist
             </span>
+          </div>
 
+          {/* Right : actions */}
+          <div className="flex items-center justify-end gap-3">
             <ThemeToggle />
 
             <Link
               href="/contact"
-              className="hidden border border-foreground/30 px-5 py-2.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-foreground transition-all duration-300 hover:border-gold hover:text-gold sm:inline-flex"
+              className={cn(
+                'hidden border px-5 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] transition-all duration-300 sm:inline-flex',
+                isHome && !scrolled
+                  ? 'border-white/40 text-white hover:bg-white hover:text-black'
+                  : 'border-foreground/30 text-foreground hover:bg-foreground hover:text-background'
+              )}
             >
               {t('nav.bookMe')}
             </Link>
@@ -84,10 +110,15 @@ export function Navbar() {
               aria-controls="side-menu"
               aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
               onClick={() => setOpen(true)}
-              className="group flex items-center gap-2 border border-foreground/20 px-3 py-2 text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+              className={cn(
+                'group flex items-center gap-2 border px-3 py-2 transition-all duration-300',
+                isHome && !scrolled
+                  ? 'border-white/40 text-white hover:bg-white hover:text-black'
+                  : 'border-foreground/20 text-foreground hover:bg-foreground hover:text-background'
+              )}
             >
               <Menu className="size-4" />
-              <span className="hidden font-display text-[10px] uppercase tracking-[0.32em] sm:inline">
+              <span className="hidden font-sans text-[10px] font-semibold uppercase tracking-[0.32em] sm:inline">
                 {t('nav.menu')}
               </span>
             </button>
@@ -123,14 +154,14 @@ export function Navbar() {
             >
               {/* Top bar */}
               <div className="flex items-center justify-between border-b border-foreground/[0.08] px-7 py-7">
-                <span className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+                <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.4em] text-foreground/55">
                   {t('nav.menu')}
                 </span>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Fermer le menu"
-                  className="flex size-10 items-center justify-center border border-foreground/20 text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+                  className="flex size-10 items-center justify-center border border-foreground/20 text-foreground transition-all duration-300 hover:bg-foreground hover:text-background"
                 >
                   <X className="size-4" />
                 </button>
@@ -155,19 +186,19 @@ export function Navbar() {
                       className={cn(
                         'group flex items-baseline justify-between py-5 transition-colors',
                         pathname === l.to
-                          ? 'text-gold'
-                          : 'text-foreground hover:text-gold'
+                          ? 'text-foreground'
+                          : 'text-foreground/55 hover:text-foreground'
                       )}
                     >
                       <span className="flex items-baseline gap-4">
-                        <span className="font-display text-[10px] tracking-[0.32em] text-foreground/35">
+                        <span className="font-sans text-[10px] font-semibold tracking-[0.32em] text-foreground/35">
                           0{i + 1}
                         </span>
-                        <span className="font-display text-3xl font-light tracking-[-0.01em] sm:text-[2.4rem]">
+                        <span className="font-display text-3xl font-light italic tracking-[-0.01em] sm:text-[2.4rem]">
                           {t(l.key)}
                         </span>
                       </span>
-                      <span className="font-display text-base text-foreground/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-gold">
+                      <span className="font-sans text-base text-foreground/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-foreground">
                         →
                       </span>
                     </Link>
@@ -185,7 +216,7 @@ export function Navbar() {
                 <Link
                   href="/contact"
                   onClick={() => setOpen(false)}
-                  className="flex w-full items-center justify-center gap-3 bg-gold py-4 font-display text-[11px] font-medium uppercase tracking-[0.32em] text-background transition-all duration-300 hover:bg-foreground"
+                  className="flex w-full items-center justify-center gap-3 bg-foreground py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-background transition-all duration-300 hover:bg-foreground/85"
                 >
                   {t('nav.bookSession')}
                   <span aria-hidden>→</span>
@@ -193,12 +224,12 @@ export function Navbar() {
 
                 <div className="flex items-center justify-between gap-4">
                   <div className="space-y-1">
-                    <p className="font-display text-[10px] uppercase tracking-[0.32em] text-foreground/40">
+                    <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/40">
                       {t('nav.directLine')}
                     </p>
                     <a
                       href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
-                      className="font-display text-sm text-foreground transition-colors hover:text-gold"
+                      className="font-display text-sm italic text-foreground transition-colors hover:text-foreground/65"
                     >
                       {siteConfig.phone}
                     </a>
@@ -210,21 +241,21 @@ export function Navbar() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label="Instagram"
-                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
                     >
                       <Instagram className="size-4" />
                     </a>
                     <a
                       href={`mailto:${siteConfig.email}`}
                       aria-label="Email"
-                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
                     >
                       <Mail className="size-4" />
                     </a>
                     <a
                       href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
                       aria-label="Téléphone"
-                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
                     >
                       <Phone className="size-4" />
                     </a>

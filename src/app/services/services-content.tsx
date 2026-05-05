@@ -66,6 +66,20 @@ const services = [
     ],
     price: 'À partir de 850 €',
   },
+  {
+    n: '05',
+    title: 'Masterclass & Cours',
+    tag: 'École · À domicile · En ligne',
+    desc: 'Cours privés ou collectifs pour futures maquilleuses et passionnées. Transmission de la technique minimaliste signature Stella : valoriser sans transformer.',
+    image: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&w=1100&q=85',
+    bullets: [
+      'Cours privé ou collectif',
+      'Présentiel (Paris, école) ou à domicile',
+      'Sessions en ligne (visio)',
+      'Programme adapté débutant ou pro',
+    ],
+    price: 'Sur devis',
+  },
 ]
 
 const process = [
@@ -80,8 +94,8 @@ export function ServicesContent() {
     <>
       <PageHero
         eyebrow="Services"
-        title="From backstage to spotlight."
-        description="Quatre univers, une signature. Une exigence couture italienne, une élégance parisienne. Disponible Paris, Cannes, Milan, Londres et worldwide."
+        title="Cinq univers, une signature."
+        description="Maquillage et coiffure de luxe, sans limite de déplacement. Pour clients privés, marques, productions et futures maquilleuses. Disponible à Paris, Cannes, Milan, Londres et à l'international."
         image="https://images.unsplash.com/photo-1525258946800-98cfd641d0de?auto=format&fit=crop&w=1920&q=85"
         breadcrumb="Services"
       />

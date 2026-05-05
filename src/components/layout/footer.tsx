@@ -28,25 +28,22 @@ export function Footer() {
   const { t } = useLang()
 
   return (
-    <footer className="border-t border-foreground/[0.08] bg-background text-foreground/70">
+    <footer className="border-t border-foreground/[0.08] bg-background text-foreground">
       <div className="mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-12">
-        {/* Headline */}
-        <div className="border-b border-foreground/[0.08] py-20 sm:py-28">
+        {/* Headline — TWG mode mais avec less is more signature */}
+        <div className="border-b border-foreground/[0.08] py-24 sm:py-32 lg:py-40">
           <div className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
             <div className="max-w-3xl">
-              <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+              <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.4em] text-foreground/55">
                 {t('foot.available')}
               </p>
-              <h2 className="mt-6 font-display text-4xl leading-[1.05] text-foreground sm:text-5xl lg:text-[5.5rem]">
+              <h2 className="mt-8 font-display text-6xl font-light italic leading-[0.98] tracking-[-0.03em] text-foreground sm:text-8xl lg:text-[10rem]">
                 {t('foot.h.line1')}
-                <br />
-                <span className="italic font-light text-gold">{t('foot.h.line2')}</span>
-                {t('foot.h.dot')}
               </h2>
             </div>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-3 border border-foreground/30 px-7 py-4 font-display text-[11px] font-medium uppercase tracking-[0.32em] text-foreground transition-all duration-300 hover:border-gold hover:text-gold"
+              className="inline-flex items-center gap-3 border border-foreground px-8 py-4 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground transition-all duration-300 hover:bg-foreground hover:text-background"
             >
               {t('foot.book')}
               <span aria-hidden>→</span>
@@ -60,9 +57,9 @@ export function Footer() {
           <div className="space-y-6">
             <Link
               href="/"
-              className="inline-flex items-baseline gap-[2px] font-display text-base font-semibold uppercase tracking-[0.32em] text-foreground"
+              className="inline-flex items-baseline gap-[2px] font-sans text-[13px] font-bold uppercase tracking-[0.32em] text-foreground"
             >
-              STELLA<span className="italic text-gold">.C</span>
+              STELLA<span className="font-display font-normal italic">.C</span>
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-foreground/55">
               {t('foot.brandTagline')}
@@ -74,21 +71,21 @@ export function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram"
-                className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
               >
                 <Instagram className="size-4" />
               </a>
               <a
                 href={`mailto:${siteConfig.email}`}
                 aria-label="Email"
-                className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
               >
                 <Mail className="size-4" />
               </a>
               <a
                 href={`tel:${siteConfig.phone}`}
                 aria-label="Téléphone"
-                className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-gold hover:text-gold"
+                className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
               >
                 <Phone className="size-4" />
               </a>
@@ -97,7 +94,7 @@ export function Footer() {
 
           {/* Pages */}
           <nav aria-label="Pages">
-            <h3 className="font-display text-[10px] font-semibold uppercase tracking-[0.32em] text-gold">
+            <h3 className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/55">
               {t('foot.col.pages')}
             </h3>
             <ul className="mt-6 space-y-3">
@@ -116,7 +113,7 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="font-display text-[10px] font-semibold uppercase tracking-[0.32em] text-gold">
+            <h3 className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/55">
               {t('foot.col.services')}
             </h3>
             <ul className="mt-6 space-y-3">
@@ -130,7 +127,7 @@ export function Footer() {
 
           {/* Cities */}
           <div>
-            <h3 className="font-display text-[10px] font-semibold uppercase tracking-[0.32em] text-gold">
+            <h3 className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/55">
               {t('foot.col.locations')}
             </h3>
             <ul className="mt-6 space-y-3">
@@ -144,21 +141,21 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-start justify-between gap-3 border-t border-foreground/[0.08] py-8 text-[11px] uppercase tracking-[0.24em] text-foreground/40 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-start justify-between gap-3 border-t border-foreground/[0.08] py-8 font-sans text-[10px] font-semibold uppercase tracking-[0.24em] text-foreground/40 sm:flex-row sm:items-center">
           <p>
             © {new Date().getFullYear()} {siteConfig.fullName} · {t('foot.rights')}
           </p>
           <p className="flex items-center gap-3">
-            <Link href="/mentions-legales" className="hover:text-foreground/80">
+            <Link href="/mentions-legales" className="hover:text-foreground">
               {t('foot.legal.mentions')}
             </Link>
             <span aria-hidden className="text-foreground/20">·</span>
-            <Link href="/politique-de-confidentialite" className="hover:text-foreground/80">
+            <Link href="/politique-de-confidentialite" className="hover:text-foreground">
               {t('foot.legal.privacy')}
             </Link>
             <span aria-hidden className="text-foreground/20">·</span>
             <span className="text-foreground/30">
-              {t('foot.crafted')} <span className="text-gold">Ouibo</span>
+              {t('foot.crafted')} <span className="text-foreground">Ouibo</span>
             </span>
           </p>
         </div>

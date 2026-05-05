@@ -27,21 +27,18 @@ export function TestimonialsSection() {
   return (
     <section className="border-b border-foreground/[0.08] bg-background">
       <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
-        {/* Header */}
-        <div className="text-center">
-          <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+        {/* Header — TWG */}
+        <div className="flex items-end justify-between gap-6 border-b border-foreground/[0.12] pb-8">
+          <h2 className="font-sans text-[28px] font-bold uppercase tracking-[-0.01em] text-foreground sm:text-[40px] lg:text-[56px]">
             {t('press.eyebrow')}
-          </p>
-          <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.6rem]">
-            {t('press.title.line1')}
-            <br /> {t('press.title.line2')}{' '}
-            <span className="italic text-gold">{t('press.title.italic')}</span>
-            {t('press.title.line3')}
           </h2>
+          <span className="hidden font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/45 sm:inline">
+            Trusted houses
+          </span>
         </div>
 
-        {/* Press logos */}
-        <div className="mt-16 grid grid-cols-2 gap-px border border-foreground/[0.08] bg-foreground/[0.08] sm:grid-cols-3 lg:grid-cols-6">
+        {/* Press logos grid */}
+        <div className="mt-12 grid grid-cols-2 gap-px bg-foreground/[0.08] sm:grid-cols-3 lg:grid-cols-6 lg:mt-16">
           {press.map((p, i) => (
             <motion.div
               key={p.name}
@@ -49,12 +46,12 @@ export function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.5, ease, delay: i * 0.05 }}
-              className="group flex aspect-[5/3] flex-col items-center justify-center gap-2 bg-background px-4 py-6 transition-colors hover:bg-foreground/[0.02] sm:aspect-[4/3]"
+              className="group flex aspect-[4/3] flex-col items-center justify-center gap-2 bg-background px-4 py-6 transition-colors hover:bg-foreground/[0.02]"
             >
-              <span className="font-display text-2xl font-light italic text-foreground/85 transition-colors group-hover:text-gold sm:text-3xl">
+              <span className="font-display text-2xl font-light italic text-foreground/85 transition-colors group-hover:text-foreground sm:text-3xl">
                 {p.name}
               </span>
-              <span className="font-display text-[9px] uppercase tracking-[0.28em] text-foreground/40">
+              <span className="font-sans text-[9px] font-semibold uppercase tracking-[0.28em] text-foreground/40">
                 {p.context}
               </span>
             </motion.div>
@@ -72,18 +69,18 @@ export function TestimonialsSection() {
               transition={{ duration: 0.6, ease, delay: i * 0.08 }}
               className="relative"
             >
-              <span aria-hidden className="font-display text-7xl leading-none text-gold/30">
+              <span aria-hidden className="font-display text-7xl leading-none text-foreground/15">
                 &ldquo;
               </span>
               <blockquote className="mt-2 font-display text-xl leading-[1.5] italic text-foreground sm:text-[1.4rem]">
                 {t(tt.quote)}
               </blockquote>
               <figcaption className="mt-8 flex items-baseline gap-3 border-t border-foreground/[0.08] pt-4">
-                <span className="font-display text-[11px] uppercase tracking-[0.28em] text-foreground">
+                <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground">
                   {t(tt.author)}
                 </span>
                 <span aria-hidden className="text-foreground/30">·</span>
-                <span className="font-display text-[10px] uppercase tracking-[0.28em] text-foreground/45">
+                <span className="font-display text-[13px] italic text-foreground/55">
                   {t(tt.role)}
                 </span>
               </figcaption>

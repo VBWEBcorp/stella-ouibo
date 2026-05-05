@@ -50,12 +50,10 @@ function MosaicShot({
           loading="lazy"
           className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
         />
-        <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
       </div>
       {meta && (
-        <figcaption className="mt-3 flex items-center justify-between font-display text-[10px] uppercase tracking-[0.32em] text-foreground/45">
-          <span>{meta}</span>
-          <span className="h-px w-10 bg-foreground/15" aria-hidden />
+        <figcaption className="mt-3 font-sans text-[10px] font-semibold uppercase tracking-[0.28em] text-foreground/45">
+          {meta}
         </figcaption>
       )}
     </motion.figure>
@@ -99,7 +97,17 @@ export function StorySection() {
   return (
     <section className="relative overflow-hidden border-b border-foreground/[0.08] bg-background">
       <div className="mx-auto max-w-[1440px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40">
-        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
+        {/* Section header — TWG editorial */}
+        <div className="flex items-end justify-between gap-6 border-b border-foreground/[0.12] pb-8">
+          <h2 className="font-sans text-[28px] font-bold uppercase tracking-[-0.01em] text-foreground sm:text-[40px] lg:text-[56px]">
+            {t('story.eyebrow')}
+          </h2>
+          <span className="hidden font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/45 sm:inline">
+            {t('story.tagSince')}
+          </span>
+        </div>
+
+        <div className="mt-12 grid items-start gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-20">
           {/* Image — desktop : grid 2x2 décalée, mobile : photo unique */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -117,7 +125,6 @@ export function StorySection() {
                 sizes="100vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent" />
             </div>
 
             {/* Desktop : 2 columns with vertical offset */}
@@ -156,17 +163,6 @@ export function StorySection() {
                 />
               </div>
             </div>
-
-            <div className="absolute -left-2 top-10 hidden -rotate-90 origin-left font-display text-[10px] uppercase tracking-[0.4em] text-foreground/40 xl:block">
-              {t('story.captionLeft')}
-            </div>
-
-            <div className="pointer-events-none absolute -bottom-2 right-2 hidden border border-gold/50 bg-background px-6 py-5 lg:block xl:-bottom-4 xl:right-4">
-              <p className="font-display text-[10px] uppercase tracking-[0.32em] text-gold">
-                {t('story.tagSince')}
-              </p>
-              <p className="mt-2 font-display text-3xl italic text-foreground">Stella C.</p>
-            </div>
           </motion.div>
 
           {/* Texte */}
@@ -175,23 +171,20 @@ export function StorySection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.9, ease, delay: 0.1 }}
-            className="lg:col-span-5"
+            className="lg:col-span-5 lg:pt-12"
           >
-            <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
-              {t('story.eyebrow')}
-            </p>
-
-            <h2 className="mt-6 font-display text-4xl leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-[3.6rem]">
+            <h3 className="font-display text-[40px] font-light italic leading-[1.04] tracking-[-0.02em] text-foreground sm:text-[48px] lg:text-[56px]">
               {t('story.title.line1')}
               <br />
               {t('story.title.line2')}{' '}
-              <span className="italic text-gold">{t('story.title.italic')}</span>
-              {t('story.title.dot')}
-            </h2>
+              <span className="font-normal">{t('story.title.italic')}</span>
+              <span className="not-italic">{t('story.title.dot')}</span>
+            </h3>
 
-            <div className="mt-8 space-y-5 text-[15px] leading-[1.75] text-foreground/65 sm:text-base">
+            <div className="mt-10 space-y-5 text-[15px] leading-[1.8] text-foreground/65 sm:text-base">
               <p>{t('story.p1')}</p>
-              <p className="border-l border-gold/60 pl-5 italic text-foreground/80">
+              <p>{t('story.p2')}</p>
+              <p className="border-l border-foreground/30 pl-5 font-display text-[17px] italic text-foreground/85">
                 {t('story.quote')}
               </p>
             </div>
@@ -199,7 +192,7 @@ export function StorySection() {
             <div className="mt-10">
               <Link
                 href="/a-propos"
-                className="group inline-flex items-center gap-3 border-b border-foreground/40 pb-2 font-display text-[11px] font-medium uppercase tracking-[0.32em] text-foreground transition-colors hover:border-gold hover:text-gold"
+                className="group inline-flex items-center gap-3 border-b border-foreground/40 pb-2 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground transition-colors hover:border-foreground"
               >
                 {t('story.cta')}
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -245,7 +238,7 @@ function StatsRow() {
               s.value
             )}
           </span>
-          <span className="font-display text-[10px] uppercase tracking-[0.32em] text-foreground/50">
+          <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.28em] text-foreground/50">
             {t(s.labelKey)}
           </span>
         </div>

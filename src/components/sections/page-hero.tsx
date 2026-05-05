@@ -34,14 +34,14 @@ export function PageHero({ eyebrow, title, description, image, breadcrumb }: Pag
       <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
         {/* Breadcrumb */}
         <nav aria-label="Fil d'Ariane" className="pt-12 sm:pt-16">
-          <ol className="flex flex-wrap items-center gap-3 font-display text-[10px] uppercase tracking-[0.32em] text-white/55">
+          <ol className="flex flex-wrap items-center gap-3 font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-white/55">
             <li>
               <Link href="/" className="transition-colors hover:text-white">
                 Home
               </Link>
             </li>
             <li aria-hidden className="text-white/30">/</li>
-            <li aria-current="page" className="text-gold">
+            <li aria-current="page" className="text-white">
               {breadcrumb}
             </li>
           </ol>
@@ -55,10 +55,10 @@ export function PageHero({ eyebrow, title, description, image, breadcrumb }: Pag
             transition={{ duration: 0.8, ease }}
             className="lg:col-span-8"
           >
-            <p className="font-display text-[10px] uppercase tracking-[0.4em] text-gold">
+            <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.4em] text-white/70">
               {eyebrow}
             </p>
-            <h1 className="mt-6 font-display text-5xl leading-[0.98] tracking-[-0.03em] text-white sm:text-7xl lg:text-[6.5rem]">
+            <h1 className="mt-6 font-sans text-[40px] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-white sm:text-[64px] lg:text-[88px]">
               {title}
             </h1>
           </motion.div>
@@ -70,7 +70,7 @@ export function PageHero({ eyebrow, title, description, image, breadcrumb }: Pag
               transition={{ duration: 0.8, ease, delay: 0.15 }}
               className="lg:col-span-4 lg:pb-4"
             >
-              <p className="border-l border-gold/70 pl-5 text-[15px] leading-relaxed text-white/75 sm:text-base">
+              <p className="border-l border-white/40 pl-5 text-[15px] leading-relaxed text-white/75 sm:text-base">
                 {description}
               </p>
             </motion.div>

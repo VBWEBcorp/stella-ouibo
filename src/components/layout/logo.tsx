@@ -4,25 +4,20 @@ import { cn } from '@/lib/utils'
 
 type LogoProps = {
   className?: string
-  variant?: 'default' | 'on-dark'
 }
 
-export function Logo({ className, variant = 'default' }: LogoProps) {
-  const colorClass =
-    variant === 'on-dark' ? 'text-white' : 'text-foreground'
-
+export function Logo({ className }: LogoProps) {
   return (
     <Link
       href="/"
       aria-label="Stella C · Accueil"
       className={cn(
-        'group inline-flex items-baseline gap-[2px] font-display tracking-[0.32em] uppercase transition-opacity hover:opacity-85',
-        colorClass,
+        'group inline-flex items-baseline gap-[2px] font-sans text-[13px] font-bold uppercase tracking-[0.32em] transition-opacity hover:opacity-75',
         className
       )}
     >
-      <span className="text-[15px] font-semibold leading-none">STELLA</span>
-      <span className="text-gold text-[15px] font-semibold italic leading-none">.C</span>
+      <span>STELLA</span>
+      <span className="font-display font-normal italic">.C</span>
     </Link>
   )
 }
