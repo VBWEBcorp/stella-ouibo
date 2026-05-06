@@ -150,6 +150,26 @@ export const translations: Record<Lang, Dict> = {
     'ed.eyebrow': 'Latest Editorials',
     'ed.title': 'Derniers éditoriaux.',
 
+    // Audience — "Pour qui ?"
+    'aud.eyebrow': 'Clientèle',
+    'aud.title': 'Pour qui.',
+    'aud.intro':
+      'Une clientèle de luxe, partout dans le monde. Du shooting éditorial au mariage couture, du board d\'entreprise au backstage Fashion Week.',
+    'aud.1': 'Clients privés',
+    'aud.2': 'Maisons & Marques',
+    'aud.3': 'Mariages couture',
+    'aud.4': 'Photographes & Productions',
+    'aud.5': 'Agences (mode, pub, beauté)',
+    'aud.6': 'PR & Marketing',
+    'aud.7': 'Corporate & Entreprises',
+    'aud.8': 'Futures maquilleuses',
+
+    // Featured Campaign (TWG-style full-bleed)
+    'feat.eyebrow': 'Featured Campaign',
+    'feat.client': 'Vogue China',
+    'feat.role': 'Maquillage Stella Ceriani',
+    'feat.context': 'Beauty Editorial · Ritz Paris',
+
     // Press
     'press.eyebrow': 'Vu dans',
     'press.title.line1': 'Choisie par les',
@@ -352,6 +372,26 @@ export const translations: Record<Lang, Dict> = {
     // Latest editorials
     'ed.eyebrow': 'Latest Editorials',
     'ed.title': 'Latest editorials.',
+
+    // Audience
+    'aud.eyebrow': 'Clientele',
+    'aud.title': 'For whom.',
+    'aud.intro':
+      'Luxury clients, all over the world. From editorial shoots to couture weddings, from corporate boards to Fashion Week backstage.',
+    'aud.1': 'Private clients',
+    'aud.2': 'Houses & Brands',
+    'aud.3': 'Couture weddings',
+    'aud.4': 'Photographers & Productions',
+    'aud.5': 'Agencies (fashion, ad, beauty)',
+    'aud.6': 'PR & Marketing',
+    'aud.7': 'Corporate',
+    'aud.8': 'Future makeup artists',
+
+    // Featured
+    'feat.eyebrow': 'Featured Campaign',
+    'feat.client': 'Vogue China',
+    'feat.role': 'Makeup by Stella Ceriani',
+    'feat.context': 'Beauty Editorial · Ritz Paris',
 
     // Press
     'press.eyebrow': 'As seen in',

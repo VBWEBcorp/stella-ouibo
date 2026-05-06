@@ -1,6 +1,6 @@
 'use client'
 
-import { Instagram, Mail, Phone } from 'lucide-react'
+import { Instagram, Linkedin, Mail, Phone } from 'lucide-react'
 import Link from 'next/link'
 
 import { useLang } from '@/hooks/use-lang'
@@ -74,6 +74,15 @@ export function Footer() {
                 className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
               >
                 <Instagram className="size-4" />
+              </a>
+              <a
+                href={siteConfig.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                className="flex size-10 items-center justify-center border border-foreground/[0.15] text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
+              >
+                <Linkedin className="size-4" />
               </a>
               <a
                 href={`mailto:${siteConfig.email}`}

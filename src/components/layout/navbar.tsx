@@ -1,21 +1,15 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Instagram, Mail, Menu, Phone, X } from 'lucide-react'
+import { Instagram, Linkedin, Mail, Menu, Phone, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { Logo } from '@/components/layout/logo'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { useLang } from '@/hooks/use-lang'
 import { siteConfig } from '@/lib/seo'
 import { cn } from '@/lib/utils'
-
-interface NavLink {
-  to: string
-  label: string
-}
 
 const linksMeta = [
   { to: '/', key: 'nav.home' },
@@ -57,12 +51,12 @@ export function Navbar() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
-  // Sur la home, header transparent au top, sinon white solid au-delà du scroll
-  const headerStyle = !isHome || scrolled
-    ? 'bg-background/85 backdrop-blur-xl border-b border-foreground/[0.08]'
-    : 'bg-transparent border-b border-transparent'
+  const headerStyle =
+    !isHome || scrolled
+      ? 'bg-background/85 backdrop-blur-xl border-b border-foreground/[0.08]'
+      : 'bg-transparent border-b border-transparent'
 
-  const textStyle = isHome && !scrolled ? 'text-white' : 'text-foreground'
+  const isOnDark = isHome && !scrolled
 
   return (
     <>
@@ -72,61 +66,53 @@ export function Navbar() {
           headerStyle
         )}
       >
-        <div className={cn(
-          'mx-auto grid h-16 max-w-[1440px] grid-cols-3 items-center px-5 sm:h-20 sm:px-8 lg:h-24 lg:px-12',
-          textStyle
-        )}>
-          {/* Left : Logo */}
+        <div
+          className={cn(
+            'mx-auto grid h-16 max-w-[1440px] grid-cols-3 items-center px-5 sm:h-20 sm:px-8 lg:h-24 lg:px-12',
+            isOnDark ? 'text-white' : 'text-foreground'
+          )}
+        >
+          {/* Left : Menu button (TWG-style "ARTISTS") */}
           <div className="flex items-center justify-start">
-            <Logo />
-          </div>
-
-          {/* Center : tagline (TWG-style) */}
-          <div className="flex items-center justify-center">
-            <span className="hidden font-sans text-[10px] font-semibold uppercase tracking-[0.4em] sm:inline">
-              Makeup Artist
-            </span>
-          </div>
-
-          {/* Right : actions */}
-          <div className="flex items-center justify-end gap-3">
-            <ThemeToggle />
-
-            <Link
-              href="/contact"
-              className={cn(
-                'hidden border px-5 py-2.5 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] transition-all duration-300 sm:inline-flex',
-                isHome && !scrolled
-                  ? 'border-white/40 text-white hover:bg-white hover:text-black'
-                  : 'border-foreground/30 text-foreground hover:bg-foreground hover:text-background'
-              )}
-            >
-              {t('nav.bookMe')}
-            </Link>
-
             <button
               type="button"
               aria-expanded={open}
               aria-controls="side-menu"
               aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
               onClick={() => setOpen(true)}
-              className={cn(
-                'group flex items-center gap-2 border px-3 py-2 transition-all duration-300',
-                isHome && !scrolled
-                  ? 'border-white/40 text-white hover:bg-white hover:text-black'
-                  : 'border-foreground/20 text-foreground hover:bg-foreground hover:text-background'
-              )}
+              className="group inline-flex items-center gap-2.5 font-sans text-[10px] font-semibold uppercase tracking-[0.32em] transition-opacity hover:opacity-70"
             >
               <Menu className="size-4" />
-              <span className="hidden font-sans text-[10px] font-semibold uppercase tracking-[0.32em] sm:inline">
-                {t('nav.menu')}
-              </span>
+              <span>{t('nav.menu')}</span>
             </button>
+          </div>
+
+          {/* Center : logo TWG-style */}
+          <div className="flex items-center justify-center">
+            <Link
+              href="/"
+              aria-label="Stella C · Accueil"
+              className="font-sans text-[12px] font-bold uppercase tracking-[0.4em] transition-opacity hover:opacity-75 sm:text-[14px]"
+            >
+              STELLA<span className="font-display font-normal italic"> · C</span>
+            </Link>
+          </div>
+
+          {/* Right : actions */}
+          <div className="flex items-center justify-end gap-3 sm:gap-4">
+            <ThemeToggle />
+
+            <Link
+              href="/contact"
+              className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] transition-opacity hover:opacity-70"
+            >
+              {t('nav.bookMe')}
+            </Link>
           </div>
         </div>
       </header>
 
-      {/* Side drawer (slide from right) */}
+      {/* Side drawer */}
       <AnimatePresence>
         {open && (
           <>
@@ -146,13 +132,12 @@ export function Navbar() {
               role="dialog"
               aria-modal="true"
               aria-label="Menu de navigation"
-              initial={{ x: '100%' }}
+              initial={{ x: '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }}
+              exit={{ x: '-100%' }}
               transition={{ duration: 0.55, ease }}
-              className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-[460px] flex-col border-l border-foreground/[0.08] bg-background shadow-[-32px_0_64px_-12px_rgba(0,0,0,0.45)]"
+              className="fixed inset-y-0 left-0 z-[70] flex w-full max-w-[460px] flex-col border-r border-foreground/[0.08] bg-background shadow-[32px_0_64px_-12px_rgba(0,0,0,0.45)]"
             >
-              {/* Top bar */}
               <div className="flex items-center justify-between border-b border-foreground/[0.08] px-7 py-7">
                 <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.4em] text-foreground/55">
                   {t('nav.menu')}
@@ -167,15 +152,14 @@ export function Navbar() {
                 </button>
               </div>
 
-              {/* Links */}
               <nav
-                aria-label="Navigation principale mobile"
+                aria-label="Navigation principale"
                 className="flex flex-1 flex-col justify-center gap-1 px-7"
               >
                 {linksMeta.map((l, i) => (
                   <motion.div
                     key={l.to}
-                    initial={{ opacity: 0, x: 24 }}
+                    initial={{ opacity: 0, x: -24 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.18 + i * 0.06, duration: 0.5, ease }}
                     className="border-b border-foreground/[0.06] last:border-b-0"
@@ -206,7 +190,6 @@ export function Navbar() {
                 ))}
               </nav>
 
-              {/* Footer info */}
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -244,6 +227,15 @@ export function Navbar() {
                       className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
                     >
                       <Instagram className="size-4" />
+                    </a>
+                    <a
+                      href={siteConfig.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="LinkedIn"
+                      className="flex size-10 items-center justify-center border border-foreground/15 text-foreground/70 transition-all hover:border-foreground hover:text-foreground"
+                    >
+                      <Linkedin className="size-4" />
                     </a>
                     <a
                       href={`mailto:${siteConfig.email}`}

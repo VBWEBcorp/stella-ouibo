@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 
+import { AudienceSection } from '@/components/sections/audience-section'
 import { CtaSection } from '@/components/sections/cta-section'
+import { FeaturedSection } from '@/components/sections/featured-section'
 import { HeroSection } from '@/components/sections/hero-section'
 import { SelectedWork } from '@/components/sections/selected-work'
 import { ServicesPreview } from '@/components/sections/services-preview'
@@ -19,7 +21,9 @@ export default function HomePage() {
       <HeroSection />
       <SignatureSection />
       <SelectedWork />
+      <FeaturedSection />
       <ServicesPreview />
+      <AudienceSection />
       <StorySection />
       <ValuesMarquee />
       <TestimonialsSection />

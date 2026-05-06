@@ -1,17 +1,18 @@
 export const siteConfig = {
   name: 'STELLA C',
   fullName: 'Claudia Stella Ceriani',
-  tagline: 'Celebrity & Fashion Makeup Artist',
-  url: 'https://www.stellamua.it',
+  tagline: 'Fashion, Celebrity & Event Makeup Artist',
+  url: 'https://stella-ceriani-mua.com',
   locale: 'fr_FR',
   description:
-    'Maquilleuse et coiffeuse italienne basée à Paris. Beauty, mode, tapis rouge et événements VIP. Disponible worldwide.',
-  ogImage: 'https://www.stellamua.it/og.png',
+    'Maquilleuse mode, célébrités et événementiel. Italienne basée à Paris. Service de luxe, sans limite de déplacement. Cours privés et collectifs.',
+  ogImage: 'https://stella-ceriani-mua.com/og.png',
   twitterHandle: '@stella.ceriani.mua',
   themeColor: '#0a0a0a',
   phone: '+33 6 35 29 76 89',
   email: 'stella.ceriani.mua@gmail.com',
   instagram: 'https://instagram.com/stella.ceriani.mua',
+  linkedin: 'https://www.linkedin.com/in/claudia-stella-ceriani/',
   address: {
     street: 'Paris',
     city: 'Paris',
