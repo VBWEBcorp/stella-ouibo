@@ -1,19 +1,16 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Calendar, User, Search } from 'lucide-react'
+import { useMemo, useState } from 'react'
 
-interface BlogPost {
-  _id: string
-  title: string
+interface BlogPostSummary {
   slug: string
+  title: string
   excerpt: string
   coverImage: string
   category: string
-  tags: string[]
   author: string
   publishedAt: string
 }
@@ -24,259 +21,228 @@ interface BlogSettings {
   description?: string
   eyebrow?: string
   heroImage?: string
-  categories?: string[]
 }
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-interface Props {
-  initialSettings: BlogSettings
-  initialPosts: BlogPost[]
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
 }
 
-export default function BlogPageContent({ initialSettings, initialPosts }: Props) {
-  const [settings] = useState<BlogSettings>(initialSettings)
-  const [posts] = useState<BlogPost[]>(initialPosts)
+interface Props {
+  settings: BlogSettings
+  posts: BlogPostSummary[]
+}
+
+export default function BlogPageContent({ settings, posts }: Props) {
   const [activeCategory, setActiveCategory] = useState<string>('all')
 
-  const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    })
+  const categories = useMemo(() => {
+    return Array.from(new Set(posts.map((p) => p.category)))
+  }, [posts])
 
-  const filteredPosts = activeCategory === 'all'
-    ? posts
-    : posts.filter((p) => p.category === activeCategory)
+  const filtered = useMemo(() => {
+    if (activeCategory === 'all') return posts
+    return posts.filter((p) => p.category === activeCategory)
+  }, [posts, activeCategory])
 
   if (!settings?.enabled) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Le blog n&apos;est pas disponible pour le moment.</p>
+      <div className="flex min-h-[60vh] items-center justify-center pt-20">
+        <p className="font-sans text-sm uppercase tracking-[0.32em] text-foreground/45">
+          Blog not available
+        </p>
       </div>
     )
   }
 
-  return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative overflow-hidden min-h-[340px] sm:min-h-[400px] lg:min-h-[440px] flex items-center">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          {settings.heroImage ? (
-            <Image
-              src={settings.heroImage}
-              alt=""
-              fill
-              sizes="100vw"
-              priority
-              className="object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-background" />
-          )}
-        </div>
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+  const featured = filtered[0]
+  const rest = filtered.slice(1)
 
-        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28 w-full">
+  return (
+    <div>
+      {/* Hero — TWG editorial */}
+      <section className="relative isolate overflow-hidden border-b border-foreground/[0.08] pt-16 sm:pt-20 lg:pt-24">
+        <div className="mx-auto max-w-[1440px] px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-            className="text-center max-w-3xl mx-auto"
+            transition={{ duration: 0.7, ease }}
+            className="grid items-end gap-10 lg:grid-cols-12 lg:gap-16"
           >
-            <p className="font-display text-xs font-semibold tracking-[0.22em] text-white/70 uppercase mb-4">
-              {settings.eyebrow || 'Blog'}
-            </p>
-            <h1 className="font-display text-4xl tracking-tight text-white sm:text-5xl lg:text-6xl font-bold">
-              {settings.title || 'Nos dernières actualités'}
-            </h1>
-            <p className="mt-5 text-lg text-white/70 leading-relaxed sm:text-xl max-w-2xl mx-auto">
-              {settings.description || 'Retrouvez nos conseils, nos projets récents et les tendances du secteur.'}
-            </p>
+            <div className="lg:col-span-8">
+              <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.4em] text-foreground/55">
+                {settings.eyebrow || 'Blog'}
+              </p>
+              <h1 className="mt-6 font-display text-6xl font-light italic leading-[0.95] tracking-[-0.03em] text-foreground sm:text-7xl lg:text-[8rem]">
+                {settings.title}
+              </h1>
+            </div>
+            {settings.description && (
+              <p className="border-l border-foreground/30 pl-5 text-[15px] leading-[1.75] text-foreground/65 sm:text-base lg:col-span-4 lg:pb-4">
+                {settings.description}
+              </p>
+            )}
           </motion.div>
         </div>
       </section>
 
       {/* Category filters */}
-      {(settings.categories?.length ?? 0) > 0 && (
-        <div className="border-b border-border/60 bg-background/50 backdrop-blur-sm sticky top-16 z-30">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-1 py-3 overflow-x-auto scrollbar-hide">
+      {categories.length > 1 && (
+        <div className="sticky top-16 z-30 border-b border-foreground/[0.08] bg-background/85 backdrop-blur-xl sm:top-20 lg:top-24">
+          <div className="mx-auto flex max-w-[1440px] items-center gap-2 overflow-x-auto px-6 py-4 sm:px-10 lg:px-16 [&::-webkit-scrollbar]:hidden">
+            <button
+              type="button"
+              onClick={() => setActiveCategory('all')}
+              className={`shrink-0 border px-5 py-2 font-sans text-[10px] font-semibold uppercase tracking-[0.32em] transition-all duration-300 ${
+                activeCategory === 'all'
+                  ? 'border-foreground bg-foreground text-background'
+                  : 'border-foreground/20 text-foreground/60 hover:border-foreground hover:text-foreground'
+              }`}
+            >
+              Tous
+            </button>
+            {categories.map((c) => (
               <button
-                onClick={() => setActiveCategory('all')}
-                className={`shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                  activeCategory === 'all'
-                    ? 'bg-primary text-white'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                key={c}
+                type="button"
+                onClick={() => setActiveCategory(c)}
+                className={`shrink-0 border px-5 py-2 font-sans text-[10px] font-semibold uppercase tracking-[0.32em] transition-all duration-300 ${
+                  activeCategory === c
+                    ? 'border-foreground bg-foreground text-background'
+                    : 'border-foreground/20 text-foreground/60 hover:border-foreground hover:text-foreground'
                 }`}
               >
-                Tous
+                {c}
               </button>
-              {settings.categories?.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                    activeCategory === cat
-                      ? 'bg-primary text-white'
-                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+            ))}
+            <span className="ml-auto hidden font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/40 sm:inline">
+              {filtered.length} {filtered.length > 1 ? 'articles' : 'article'}
+            </span>
           </div>
         </div>
       )}
 
-      {/* Posts grid */}
-      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        {/* Featured post (first one, if has cover) */}
-        {filteredPosts.length > 0 && filteredPosts[0].coverImage && (
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease }}
-            className="mb-12"
-          >
-            <Link href={`/blog/${filteredPosts[0].slug}`} className="group block">
-              <div className="grid md:grid-cols-2 gap-6 rounded-2xl border border-border/50 bg-card overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all">
-                <div className="relative aspect-[16/10] md:aspect-auto overflow-hidden bg-muted">
+      {/* Featured + grid */}
+      <section className="bg-background">
+        <div className="mx-auto max-w-[1440px] px-6 py-16 sm:px-10 sm:py-24 lg:px-16 lg:py-32">
+          {filtered.length === 0 && (
+            <div className="py-32 text-center">
+              <p className="font-sans text-sm uppercase tracking-[0.32em] text-foreground/45">
+                Aucun article dans cette catégorie pour le moment.
+              </p>
+            </div>
+          )}
+
+          {/* Featured */}
+          {featured && (
+            <motion.article
+              key={featured.slug}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease }}
+              className="border-b border-foreground/[0.08] pb-14 lg:pb-20"
+            >
+              <Link
+                href={`/blog/${featured.slug}`}
+                className="group grid items-center gap-10 lg:grid-cols-2 lg:gap-16"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-foreground/[0.04] lg:aspect-[5/6]">
                   <Image
-                    src={filteredPosts[0].coverImage}
-                    alt={filteredPosts[0].title}
+                    src={featured.coverImage}
+                    alt={featured.title}
                     fill
-                    sizes="(min-width:768px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(min-width:1024px) 50vw, 100vw"
+                    priority
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                 </div>
-                <div className="p-6 md:p-8 flex flex-col justify-center space-y-4">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    {filteredPosts[0].category && (
-                      <span className="font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">
-                        {filteredPosts[0].category}
-                      </span>
-                    )}
-                    {filteredPosts[0].publishedAt && (
-                      <span className="flex items-center gap-1">
-                        <Calendar className="size-3" />
-                        {formatDate(filteredPosts[0].publishedAt)}
-                      </span>
-                    )}
+
+                <div>
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/55">
+                      {featured.category}
+                    </span>
+                    <span aria-hidden className="text-foreground/30">·</span>
+                    <span className="font-display text-[13px] italic text-foreground/55">
+                      {formatDate(featured.publishedAt)}
+                    </span>
                   </div>
-                  <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
-                    {filteredPosts[0].title}
+
+                  <h2 className="mt-6 font-display text-[36px] font-light italic leading-[1.05] tracking-[-0.02em] text-foreground sm:text-[44px] lg:text-[56px]">
+                    {featured.title}
                   </h2>
-                  {filteredPosts[0].excerpt && (
-                    <p className="text-muted-foreground leading-relaxed line-clamp-3">
-                      {filteredPosts[0].excerpt}
-                    </p>
-                  )}
-                  <div className="flex items-center justify-between pt-2">
-                    {filteredPosts[0].author && (
-                      <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                        <User className="size-3.5" />
-                        {filteredPosts[0].author}
-                      </span>
-                    )}
-                    <span className="flex items-center gap-1.5 text-sm font-medium text-primary group-hover:gap-2.5 transition-all">
+
+                  <p className="mt-6 max-w-xl text-[15px] leading-[1.7] text-foreground/65 sm:text-base">
+                    {featured.excerpt}
+                  </p>
+
+                  <div className="mt-8 flex items-center justify-between border-t border-foreground/[0.08] pt-6">
+                    <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.28em] text-foreground/55">
+                      {featured.author}
+                    </span>
+                    <span className="inline-flex items-center gap-2 font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground transition-all duration-300 group-hover:gap-3">
                       Lire l&apos;article
-                      <ArrowRight className="size-4" />
+                      <span aria-hidden>→</span>
                     </span>
                   </div>
                 </div>
-              </div>
-            </Link>
-          </motion.div>
-        )}
+              </Link>
+            </motion.article>
+          )}
 
-        {/* Rest of posts */}
-        {filteredPosts.length > 1 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.slice(1).map((post, i) => (
-              <motion.article
-                key={post._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, ease, delay: i * 0.06 }}
-              >
-                <Link href={`/blog/${post.slug}`} className="group block h-full">
-                  <div className="h-full rounded-2xl border border-border/50 bg-card overflow-hidden transition-all hover:shadow-lg hover:border-primary/20">
-                    {post.coverImage && (
-                      <div className="relative aspect-[16/9] overflow-hidden bg-muted">
-                        <Image
-                          src={post.coverImage}
-                          alt={post.title}
-                          fill
-                          sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
-                          loading="lazy"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-                    )}
-
-                    <div className="p-6 space-y-3">
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                        {post.category && (
-                          <span className="font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                            {post.category}
-                          </span>
-                        )}
-                        {post.publishedAt && (
-                          <span className="flex items-center gap-1">
-                            <Calendar className="size-3" />
-                            {formatDate(post.publishedAt)}
-                          </span>
-                        )}
-                      </div>
-
-                      <h2 className="font-display text-lg font-semibold text-foreground leading-snug group-hover:text-primary transition-colors line-clamp-2">
-                        {post.title}
-                      </h2>
-
-                      {post.excerpt && (
-                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                          {post.excerpt}
-                        </p>
-                      )}
-
-                      <div className="flex items-center justify-between pt-2">
-                        {post.author && (
-                          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                            <User className="size-3" />
-                            {post.author}
-                          </span>
-                        )}
-                        <span className="flex items-center gap-1 text-xs font-medium text-primary group-hover:gap-2 transition-all">
-                          Lire la suite
-                          <ArrowRight className="size-3" />
-                        </span>
-                      </div>
+          {/* Rest of posts — TWG grid */}
+          {rest.length > 0 && (
+            <div className="mt-14 grid gap-10 sm:gap-12 md:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-16">
+              {rest.map((post, i) => (
+                <motion.article
+                  key={post.slug}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease, delay: i * 0.06 }}
+                >
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="group block"
+                  >
+                    <div className="relative aspect-[4/5] overflow-hidden bg-foreground/[0.04]">
+                      <Image
+                        src={post.coverImage}
+                        alt={post.title}
+                        fill
+                        sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
+                        loading="lazy"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                      />
                     </div>
-                  </div>
-                </Link>
-              </motion.article>
-            ))}
-          </div>
-        ) : filteredPosts.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
-          >
-            <Search className="size-12 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="text-muted-foreground text-lg font-medium">
-              {activeCategory !== 'all'
-                ? `Aucun article dans la catégorie "${activeCategory}"`
-                : 'Aucun article pour le moment.'}
-            </p>
-            <p className="text-sm text-muted-foreground/60 mt-2">Revenez bientôt !</p>
-          </motion.div>
-        ) : null}
+
+                    <div className="mt-5 flex items-baseline gap-3">
+                      <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/55">
+                        {post.category}
+                      </span>
+                      <span aria-hidden className="text-foreground/30">·</span>
+                      <span className="font-display text-[12px] italic text-foreground/55">
+                        {formatDate(post.publishedAt)}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-3 font-display text-[22px] italic leading-[1.15] text-foreground transition-colors group-hover:text-foreground/65 sm:text-[24px]">
+                      {post.title}
+                    </h3>
+
+                    <p className="mt-3 line-clamp-3 text-[14px] leading-[1.65] text-foreground/55">
+                      {post.excerpt}
+                    </p>
+                  </Link>
+                </motion.article>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
     </div>
   )

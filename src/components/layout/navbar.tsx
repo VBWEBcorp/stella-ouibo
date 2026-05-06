@@ -16,6 +16,7 @@ const linksMeta = [
   { to: '/a-propos', key: 'nav.about' },
   { to: '/services', key: 'nav.services' },
   { to: '/gallery', key: 'nav.portfolio' },
+  { to: '/blog', key: 'nav.blog' },
   { to: '/contact', key: 'nav.contact' },
 ]
 

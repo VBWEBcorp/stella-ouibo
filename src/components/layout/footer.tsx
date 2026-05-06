@@ -11,6 +11,7 @@ const navLinks = [
   { key: 'nav.about', to: '/a-propos' },
   { key: 'nav.services', to: '/services' },
   { key: 'nav.portfolio', to: '/gallery' },
+  { key: 'nav.blog', to: '/blog' },
   { key: 'nav.contact', to: '/contact' },
 ]
 

@@ -101,9 +101,10 @@ export function HeroSection() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Subtle dark overlay only at top + bottom (more TWG, less heavy gradient) */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/55 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        {/* Dark overlay : voile global + renforts haut/bas pour lisibilité */}
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/65 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
       </div>
 
       <div className="relative flex min-h-[100svh] flex-col">
