@@ -25,11 +25,13 @@ export async function generateMetadata(): Promise<Metadata> {
       url: `${siteConfig.url}/blog`,
       siteName: siteConfig.name,
       locale: siteConfig.locale,
+      images: [{ url: siteConfig.ogImage }],
     },
     twitter: {
       card: 'summary_large_image',
       title: settings.title,
       description: settings.description,
+      images: [siteConfig.ogImage],
     },
     alternates: {
       canonical: '/blog',
