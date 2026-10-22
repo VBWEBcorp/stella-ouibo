@@ -169,7 +169,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease, delay: 0.6 }}
-          className="px-6 pb-8 sm:px-10 sm:pb-10 lg:px-16 lg:pb-12"
+          className="px-6 pb-8 pt-16 sm:px-10 sm:pb-10 sm:pt-20 lg:px-16 lg:pb-12 lg:pt-24"
         >
           {/* Now showing caption — TWG style */}
           <div className="mx-auto max-w-[1440px]">

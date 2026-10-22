@@ -169,21 +169,16 @@ export function Navbar() {
                       href={l.to}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        'group flex items-baseline justify-between py-5 transition-colors',
+                        'group flex items-baseline justify-between py-4 transition-colors',
                         pathname === l.to
                           ? 'text-foreground'
                           : 'text-foreground/55 hover:text-foreground'
                       )}
                     >
-                      <span className="flex items-baseline gap-4">
-                        <span className="font-sans text-[10px] font-semibold tracking-[0.32em] text-foreground/35">
-                          0{i + 1}
-                        </span>
-                        <span className="font-display text-3xl font-light italic tracking-[-0.01em] sm:text-[2.4rem]">
-                          {t(l.key)}
-                        </span>
+                      <span className="font-display text-2xl font-light italic tracking-[-0.01em] sm:text-[1.7rem]">
+                        {t(l.key)}
                       </span>
-                      <span className="font-sans text-base text-foreground/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-foreground">
+                      <span className="font-sans text-sm text-foreground/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-foreground">
                         →
                       </span>
                     </Link>
